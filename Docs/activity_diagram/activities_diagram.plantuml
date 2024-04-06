@@ -1,0 +1,43 @@
+@startuml user_1
+
+(*) --> "User opens the app"
+
+if "User is singged in" then
+  -->[yes] "User Log in"
+  --> if "Have two steps Authentication"
+    -->[yes] "Authenticating user"
+    --> if "Authentication successful" then
+        -->[yes] "User swipes"
+        --> "Find potential matches"
+        --> "Display matches"
+        --> "User interacts with matches"
+        --> "Send/Receive messages"
+        --> "Chat management"
+        --> (*)
+        --> (*)
+        else
+            -->[no] "Repite el proceso"
+            --> "Authenticating user"
+    endif
+        -->(*)
+        -->(*)
+        
+    else
+        -->[no]"Make two step Authentication process"
+        -->(*)
+  endif  
+    
+  
+else
+  -->[no] "User sing in"
+  --> "Authenticate user"
+  --> if "Authentication successful" then
+    -->[yes] "Load user data"
+    --> (*)
+  else
+    -->[no] "Show error message"
+    --> (*)
+  endif
+endif
+
+@enduml

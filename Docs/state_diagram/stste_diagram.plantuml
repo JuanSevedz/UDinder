@@ -1,0 +1,71 @@
+@startuml main
+
+[*] --> ClientDeviceActive : Start
+
+state ClientDeviceActive {
+    [*] --> DisplayingUserProfile : User interacts
+    DisplayingUserProfile --> Swiping : Swipe detected
+    Swiping --> SendingChatMessage : Message sent
+    SendingChatMessage --> DisplayingUserProfile : Return to profile
+    DisplayingUserProfile --> [*] : Logout
+}
+
+state ClientDeviceInactive {
+    [*] --> Reactivating : User interacts
+}
+
+state MobileAppActive {
+    [*] --> MobileAppRunning : Launch
+    MobileAppRunning --> [*] : Close
+}
+
+state WebBrowserActive {
+    [*] --> WebBrowserRunning : Launch
+    WebBrowserRunning --> [*] : Close
+}
+
+state ApplicationServerActive {
+    [*] --> ApplicationServerOnline : Start
+}
+
+state LoadBalancerActive {
+    [*] --> LoadBalancerOnline : Start
+}
+
+state ApplicationLogicServerActive {
+    [*] --> ApplicationLogicServerOnline : Start
+}
+
+state DatabaseServerActive {
+    [*] --> DatabaseServerOnline : Start
+}
+
+state ThirdPartyServiceActive {
+    [*] --> ThirdPartyServiceOnline : Start
+}
+
+state CloudStorageIntegrationActive {
+    [*] --> CloudStorageIntegrationOnline : Start
+}
+
+state FacebookOAuthActive {
+    [*] --> FacebookOAuthOnline : Start
+}
+
+ClientDeviceActive --> ClientDeviceInactive : Inactivity timeout
+ClientDeviceInactive --> ClientDeviceActive : User interacts
+
+ClientDeviceActive --> MobileAppActive : Uses Mobile App
+ClientDeviceActive --> WebBrowserActive : Uses Web Browser
+
+ApplicationServerActive --> LoadBalancerActive : Load balancing
+ApplicationServerActive --> ApplicationLogicServerActive : Logic processing
+
+DatabaseServerActive --> UserDatabaseActive : User data operation
+DatabaseServerActive --> MatchesDatabaseActive : Matches data operation
+DatabaseServerActive --> ChatDatabaseActive : Chat data operation
+
+ThirdPartyServiceActive --> CloudStorageIntegrationActive : Cloud storage operation
+ThirdPartyServiceActive --> FacebookOAuthActive : Facebook authentication
+
+@enduml
