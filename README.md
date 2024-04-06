@@ -26,7 +26,7 @@ To stay updated on the latest news and developments, follow us on [Instagram](#)
 Thank you for choosing Uinder! Let's make university dating more enjoyable and meaningful together.
 
 
-##Diagrams
+## Diagrams
 
 - Activities Diagram:
 
@@ -42,4 +42,4 @@ Thank you for choosing Uinder! Let's make university dating more enjoyable and m
 ![Sequence Diagram](Docs/sequence_diagram/out/class_18.png)
 
 - State Diagram:
-![State Diagram](Docs/state_diagram/out/main.png)# Uinder
+![State Diagram](Docs/state_diagram/out/main.png)
