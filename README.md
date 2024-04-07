@@ -1,4 +1,18 @@
 # Welcome to Uinder!
+There is information about us:
+1. [Overview](#overview)
+2. [Key Features](#key-features)
+3. [Getting Started](#getting-started)
+4. [Contributing](#contributing)
+5. [Feedback](#feedback)
+6. [Stay Connected](#stay-connected)
+7. [Diagrams](#diagrams)
+    - [Activity Diagram](#activities-diagram)
+    - [Deplyment Diagram](#deployment-diagrams)
+    - [Sequence Diagram](#sequence-diagram)
+    - [State Diagram](#state-diagram)
+
+
 
 ## Overview
 Uinder is a revolutionary dating application designed specifically for young university students. Our platform aims to create meaningful connections among university communities by providing a safe and efficient way for students to meet and interact with one another.
@@ -28,18 +42,18 @@ Thank you for choosing Uinder! Let's make university dating more enjoyable and m
 
 ## Diagrams
 
-- Activities Diagram:
+### Activities Diagram:
 
-![Activities Diagram](Docs\activity_diagram\out\user_1.png)
+![Activities Diagram](Docs\activity_diagram\out\user_activities.png)
 
-- Deployment Diagrams:
+### Deployment Diagrams:
 ![Deployment Diagram](Docs/deployment_diagram/out/18_03_24.png)
 
 ![Deployment Diagram](Docs/deployment_diagram/out/app.png)
 
-- Sequence Diagram:
+### Sequence Diagram:
 
 ![Sequence Diagram](Docs/sequence_diagram/out/class_18.png)
 
-- State Diagram:
+### State Diagram:
 ![State Diagram](Docs/state_diagram/out/main.png)
