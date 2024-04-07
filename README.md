@@ -7,7 +7,7 @@ There is information about us:
 5. [Feedback](#feedback)
 6. [Stay Connected](#stay-connected)
 7. [Diagrams](#diagrams)
-    - [Activity Diagram](#activities-diagram)
+    - [Activity Diagram](#activity-diagram)
     - [Deplyment Diagram](#deployment-diagrams)
     - [Sequence Diagram](#sequence-diagram)
     - [State Diagram](#state-diagram)
@@ -42,9 +42,8 @@ Thank you for choosing Uinder! Let's make university dating more enjoyable and m
 
 ## Diagrams
 
-### Activities Diagram:
-
-![Activity Diagram](Docs\activity_diagram\out\user_activities.png)
+### Activity Diagram
+![Activity Diagram](Docs/activity_diagram/out/user_activities.png)
 
 ### Deployment Diagrams:
 ![Deployment Diagram](Docs/deployment_diagram/out/18_03_24.png)
