@@ -43,16 +43,17 @@ Thank you for choosing Uinder! Let's make university dating more enjoyable and m
 ## Diagrams
 
 ### Activity Diagram
-![Activity Diagram](Docs/activity_diagram/out/user_activities.png)
+![Activity Diagram](src/Docs/activity_diagram/out/user_activities.png)
 
 ### Deployment Diagrams:
-![Deployment Diagram](Docs/deployment_diagram/out/18_03_24.png)
+![Deployment Diagram](src/Docs/deployment_diagram/out/18_03_24.png)
 
-![Deployment Diagram](Docs/deployment_diagram/out/app.png)
+![Deployment Diagram](src/Docs/deployment_diagram/out/app.png)
 
 ### Sequence Diagram:
 
-![Sequence Diagram](Docs/sequence_diagram/out/class_18.png)
+![Sequence Diagram](src/Docs/sequence_diagram/out/class_18.png)
 
 ### State Diagram:
-![State Diagram](Docs/state_diagram/out/main.png)
+![State Diagram](src/Docs/state_diagram/out/main.png)
+![Satate Diagram With Draw.io](src/Docs/state_diagram/out/LastDiagram.png)
