@@ -1,0 +1,31 @@
+@startuml DeploymentDiagram
+
+node MobileDevice {
+    artifact MobileApp
+}
+
+node WebBrowser {
+    artifact WebApp
+}
+
+node ApplicationServer {
+    artifact ApplicationServer
+}
+
+node DatabaseServer {
+    artifact UserDatabase
+    artifact MatchesDatabase
+    artifact ChatDatabase
+}
+
+node ThirdPartyServices {
+    artifact CloudStorageIntegration
+    artifact FacebookOAuth
+}
+
+MobileDevice --> ApplicationServer
+WebBrowser --> ApplicationServer
+ApplicationServer --> DatabaseServer
+ApplicationServer --> ThirdPartyServices
+
+@enduml

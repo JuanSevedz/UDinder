@@ -7,10 +7,12 @@ There is information about us:
 5. [Feedback](#feedback)
 6. [Stay Connected](#stay-connected)
 7. [Diagrams](#diagrams)
+    - [Deployment Diagram](#deployment-diagrams)
     - [Activity Diagram](#activity-diagram)
-    - [Deplyment Diagram](#deployment-diagrams)
     - [Sequence Diagram](#sequence-diagram)
     - [State Diagram](#state-diagram)
+    - [CRC cards](#crc-cards)
+    - [Class Diagram](#class-diagrams)
 
 
 
@@ -41,14 +43,11 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 
 ## Diagrams
+### Deployment Diagrams:
+![Deployment Diagram]()
 
 ### Activity Diagram
 ![Activity Diagram](src/Docs/activity_diagram/out/user_activities.png)
-
-### Deployment Diagrams:
-![Deployment Diagram](src/Docs/deployment_diagram/out/18_03_24.png)
-
-![Deployment Diagram](src/Docs/deployment_diagram/out/app.png)
 
 ### Sequence Diagram:
 
@@ -56,4 +55,12 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ### State Diagram:
 ![State Diagram](src/Docs/state_diagram/out/main.png)
-![Satate Diagram With Draw.io](src/Docs/state_diagram/out/LastDiagram.png)
+![State Diagram With Draw.io](src/Docs/state_diagram/out/LastDiagram.png)
+
+### CRC cards
+![CRC Card](src/Docs/CRC_cards/All_cards.png)
+
+### Class Diagrams
+![Draw.io Diagram](src/Docs/class_diagram/out/18_03_24.png)
+
+![PlantUML Diagram](src/Docs/class_diagram/out/app.png)
