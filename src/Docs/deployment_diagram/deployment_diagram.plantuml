@@ -1,0 +1,32 @@
+@startuml DeploymentDiagram
+
+node "User's Mobile Device" as MobileDevice {
+    artifact "Mobile App" as MobileApp
+}
+
+node "User's Web Browser" as WebBrowser {
+    artifact "Web App" as WebApp
+}
+
+node "Application Server" as AppServer {
+    artifact "Application Logic" as AppLogic
+    artifact "Load Balancer" as LoadBalancer
+}
+
+node "Database Server" as DBServer {
+    artifact "User Database" as UserDB
+    artifact "Matches Database" as MatchesDB
+    artifact "Chat Database" as ChatDB
+}
+
+node "Third Party Services" as ThirdParty {
+    artifact "Cloud Storage" as CloudStorage
+    artifact "Facebook OAuth" as FacebookOAuth
+}
+
+MobileDevice --> AppServer : HTTP Request
+WebBrowser --> AppServer : HTTP Request
+AppServer --> DBServer : SQL Query
+AppServer --> ThirdParty : HTTP Request
+
+@enduml
