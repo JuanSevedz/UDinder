@@ -44,21 +44,25 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ## Diagrams
 ### Deployment Diagrams:
-![Deployment Diagram]()
+![Deployment Diagram](src\Docs\deployment_diagram\out\DeploymentDiagram.png)
+
 
 ### Activity Diagram
 ![Activity Diagram](src/Docs/activity_diagram/out/user_activities.png)
+
 
 ### Sequence Diagram:
 
 ![Sequence Diagram](src/Docs/sequence_diagram/out/class_18.png)
 
+
 ### State Diagram:
 ![State Diagram](src/Docs/state_diagram/out/main.png)
-![State Diagram With Draw.io](src/Docs/state_diagram/out/LastDiagram.png)
+
 
 ### CRC cards
 ![CRC Card](src/Docs/CRC_cards/All_cards.png)
+
 
 ### Class Diagrams
 ![Draw.io Diagram](src/Docs/class_diagram/out/18_03_24.png)
