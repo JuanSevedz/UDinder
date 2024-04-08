@@ -44,7 +44,7 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ## Diagrams
 ### Deployment Diagrams:
-![Deployment Diagram](src\Docs\deployment_diagram\out\DeploymentDiagram.png)
+![Deployment Diagram](src/Docs/activity_diagram/out/user_activities.png)
 
 
 ### Activity Diagram
