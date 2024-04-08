@@ -68,3 +68,15 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 ![Draw.io Diagram](src/Docs/class_diagram/out/18_03_24.png)
 
 ![PlantUML Diagram](src/Docs/class_diagram/out/app.png)
+
+
+
+
+
+
+
+
+
+
+
+sisa
