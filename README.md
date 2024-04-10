@@ -15,6 +15,7 @@ There is information about us:
     - [Class Diagram](#class-diagrams)
 8. [Poster(Beta)](#poster)
 9. [Paper](#paper)
+10. [Technical Report](#technical-report)
 
 
 
@@ -78,3 +79,6 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ## Paper
 ![PaperOfUDinder](src/paper/paper.pdf)
+
+## Technical Report
+![Technical Report](src/Docs/report/Reporte Técnico.pdf)
