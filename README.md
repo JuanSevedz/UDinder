@@ -13,6 +13,8 @@ There is information about us:
     - [State Diagram](#state-diagram)
     - [CRC cards](#crc-cards)
     - [Class Diagram](#class-diagrams)
+8. [Poster(Beta)](#poster)
+9. [Paper](#paper)
 
 
 
@@ -44,7 +46,7 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ## Diagrams
 ### Deployment Diagrams:
-![Deployment Diagram](src\Docs\deployment_diagram\out\Deployment_Diagram.png)
+![Deployment_diagram](src/Docs/deployment_diagram/out/DiagramDeploy.png)
 
 
 ### Activity Diagram
@@ -70,3 +72,9 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 ![PlantUML Diagram](src/Docs/class_diagram/out/app.png)
 
 
+
+## Poster
+![UDinder Poster](src/poster/UDinder_poster.png)
+
+## Paper
+![PaperOfUDinder](src/paper/paper.pdf)
