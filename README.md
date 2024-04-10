@@ -44,7 +44,7 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ## Diagrams
 ### Deployment Diagrams:
-![Deployment Diagram](src/Docs/deployment_diagram/out/Deployment_Diagram.png)
+![Deployment Diagram](src\Docs\deployment_diagram\out\Deployment_Diagram.png)
 
 
 ### Activity Diagram
@@ -68,3 +68,6 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 ![Draw.io Diagram](src/Docs/class_diagram/out/18_03_24.png)
 
 ![PlantUML Diagram](src/Docs/class_diagram/out/app.png)
+
+
+que es lo que esta sucediendo por dios  
