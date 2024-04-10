@@ -70,4 +70,3 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 ![PlantUML Diagram](src/Docs/class_diagram/out/app.png)
 
 
-que es lo que esta sucediendo por dios  
