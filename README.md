@@ -82,3 +82,7 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 
 ## Technical Report
 ![Technical Report](src/Docs/report/Reporte Técnico.pdf)
+
+
+
+millos tu papa y lo demas que coma monda 
