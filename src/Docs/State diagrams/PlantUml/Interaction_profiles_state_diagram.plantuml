@@ -1,0 +1,25 @@
+@startuml Idle_SD
+[*] --> Idle
+
+state Idle {
+    [*] --> ViewingProfiles
+    ViewingProfiles --> SwipingProfiles: Swipe Right/Left
+    SwipingProfiles --> ViewingProfiles: Continue Swiping
+    SwipingProfiles --> NoMatches: No More Profiles
+    SwipingProfiles --> MatchFound: Match!
+}
+
+state NoMatches {
+    NoMatches --> ViewingProfiles: Retry
+    NoMatches --> Idle: Back to Profiles
+}
+
+state MatchFound {
+    MatchFound --> ViewingMatches: View Matches
+    ViewingMatches --> Messaging: Select Match
+    Messaging --> ViewingMatches: Continue Messaging
+    Messaging --> Idle: Back to Matches
+}
+
+[*] --> Idle
+@enduml

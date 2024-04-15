@@ -1,0 +1,14 @@
+@startuml Complete_profile_ad
+(*) --> "Upload five photos"
+--> "Select Intereses"
+--> "Put something in your bio"
+--> "Verify your information"
+if "Information is correct?"
+-->[Yes]"Profile Completed"
+-->(*)
+else
+    -->[No]"Check all information" 
+    -->"Upload five photos"
+endif
+
+@enduml

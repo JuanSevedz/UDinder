@@ -1,0 +1,15 @@
+@startuml swipe_funtion_AD
+|User|
+start
+repeat
+    |User|
+    if (Interested in profile?) then (yes)
+        :Swipe profile (right);
+    else (no)
+        :Swipe profile (left) ;
+        |UDinder Program|
+        :Suggested profile;
+    endif
+repeat while (User decide)
+stop
+@enduml

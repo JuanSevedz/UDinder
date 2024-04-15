@@ -1,0 +1,55 @@
+@startuml sequence_diagram
+actor User
+participant "User Interface" as UI
+participant Database
+participant InteractionProfiles
+
+User -> UI: Sign up
+UI -> User: Provide registration details
+User -> Database: Sign up request
+activate Database
+Database --> User: Check if username is available
+alt Username Available
+    Database -> User: Confirm username availability
+    UI -> User: Proceed with registration
+    User -> Database: Submit registration details
+    Database -> User: Registration successful
+    deactivate Database
+    User -> UI: Display sign-up success message
+else Username Not Available
+    Database -> User: Notify username is taken
+    deactivate Database
+    UI -> UI: Display username taken message
+end
+
+User -> UI: Sign in
+UI -> User: Provide username and password
+User -> Database: Sign in request
+activate Database
+Database --> User: Validate credentials
+alt Credentials Valid
+    UI -> User: Display suggested profiles
+    loop until User_swipes_right
+        User -> UI: Swipe profiles (right/left)
+    end
+    alt Match Found
+        UI -> UI: Match validation
+        UI -> User: Match confirmation
+        User -> InteractionProfiles: Select Match
+        InteractionProfiles -> User: Show existing matches
+        activate InteractionProfiles
+        User -> InteractionProfiles: Send message to another user
+        InteractionProfiles --> Database: Retrieve recipient's details
+        Database --> InteractionProfiles: Recipient details
+        InteractionProfiles -> InteractionProfiles: Create message
+        InteractionProfiles -> InteractionProfiles: Notify recipient
+        InteractionProfiles --> User: Message sent successfully
+        deactivate InteractionProfiles
+    else No Match Found
+        UI -> UI: Display no matches found message
+    end
+else Credentials Invalid
+    UI -> UI: Display invalid credentials message
+end
+deactivate Database
+@enduml

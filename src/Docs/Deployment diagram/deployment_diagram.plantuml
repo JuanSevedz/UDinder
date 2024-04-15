@@ -1,0 +1,12 @@
+@startuml deployment_diagram
+node "User Device" {
+    [User Interface]
+}
+
+node "Server" {
+    [Database]
+    [Interaction Profiles]
+}
+
+[User Interface] --> [Server]
+@enduml

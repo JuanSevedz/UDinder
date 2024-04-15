@@ -1,0 +1,14 @@
+@startuml authentication_ad
+(*)-->"Authenticating user"
+
+if "Authentication is succesful"
+-->[Yes] "Authentication succes"
+-->"Redirect User to api_diagram"
+-->(*)
+else
+    -->[No]"Authentication failed"
+    -->"Showing error message to the user"
+    -->"Redirecting to login page"
+    -->(*)
+
+@enduml

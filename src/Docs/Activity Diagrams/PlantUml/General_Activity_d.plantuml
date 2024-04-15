@@ -1,0 +1,68 @@
+@startuml Gen
+|User|
+start
+repeat
+if (Registred?) then (yes)
+    :Sing in ;
+else (no)
+    :Sing up ;
+    |UDinder Program|
+    :Confirmation ;
+endif
+|UDinder Program|
+:Authenticate the user;
+
+    |UDinder Program|
+if (Authentication succesful) then (yes)
+|User|
+if (Profile completed?) then (yes)
+
+else (no)
+    :Complete profile;
+    |UDinder Program|
+    :Confirmation;
+endif
+|UDinder Program|
+:Suggested profile;
+|User|
+:Swipe profile(right/left);
+repeat
+    |User|
+    if (Interested in profile?) then (yes)
+        :Swipe profile (right);
+    else (no)
+    :Swipe profile (left);
+        |UDinder Program|
+        :Suggested profile;
+    endif
+repeat while (User decide)
+|UDinder Program|
+:Check match ;
+if (Match) then (yes)
+:Match Notification;
+:Confirmation of match;
+else (no)
+    :Suggested profile ;
+endif
+|User|
+:View notifications;
+|User|
+:Go to match ;
+:Select match profile ;
+:Send message;
+|UDinder Program|
+:New message notification;
+:Confirmation of message sent;
+|User|
+:Respond to message;
+|UDinder Program|
+:Notification of response;
+|User|
+
+stop
+
+else (no)
+endif
+repeat while (not authetication succesful)
+
+@enduml

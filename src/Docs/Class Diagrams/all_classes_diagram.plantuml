@@ -1,0 +1,61 @@
+@startuml CD_relation_classes
+class User {
+    - name: String
+    - age: int
+    - location: String
+    - preferences: List<String>
+    - profile: Profile
+
+    + complete_profile(profile: Profile)
+    + sing_up(email, password, username)
+    + sing_in(username, password)
+}
+
+class Profile {
+    - photos: List<String>
+    - description: String
+    - interests: List<String>
+}
+
+class InteractionProfiles {
+    - users: List<User>
+    - matches: List<Tuple<User, User>>
+
+    + show_suggested_profiles(user: User)
+    + create_match(user1: User, user2: User)
+    + send_message(sender: User, recipient: User, message: String)
+}
+class MatchManager {
+    + create_match(user1: User, user2: User)
+}
+
+class MessageManager {
+    + send_message(sender: User, recipient: User, message: String)
+}
+
+class Database {
+    - users: Dict<String, User>
+
+    + add_user(user: User)
+    + get_user(username: String): User
+}
+
+class Administrator {
+    - username: String
+    - password: String
+
+    + sing_in(username: String, password: String)
+    + block_user(user: User)
+    + unblock_user(user: User)
+    + view_existing_users(database: Database): List<User>
+
+}
+
+User *-- Profile
+InteractionProfiles *-- User
+InteractionProfiles -- MatchManager: extends
+InteractionProfiles -- MessageManager: extends
+Database o-- User
+Administrator -- Database: has access to
+Administrator -- User: interacts with
+@enduml

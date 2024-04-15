@@ -1,0 +1,14 @@
+@startuml Sign_up_AD
+(*) --> "Type an email"
+--> "Type a password"
+--> "Type a creative username"
+--> "Check username availability"
+--> if "Username available?" then
+    -->[yes] "Register"
+    --> (*)
+else
+    -->[no] "Choose another username"
+    --> "Type a different creative username"
+    --> "Check username availability"
+endif
+@enduml

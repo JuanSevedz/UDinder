@@ -1,0 +1,32 @@
+@startuml user_sd
+[*] --> NotLoggedIn
+
+state NotLoggedIn {
+    [*] --> SignIn
+    SignIn --> SignUp: New User?
+    SignIn --> LoggedIn: Existing User
+    SignUp --> LoggedIn: Registered
+}
+
+state LoggedIn {
+    [*] --> ViewingProfiles
+    ViewingProfiles --> SwipingProfiles: Swipe Right/Left
+    SwipingProfiles --> ViewingProfiles: Continue Swiping
+    SwipingProfiles --> NoMatches: No More Profiles
+    SwipingProfiles --> MatchFound: Match!
+}
+
+state NoMatches {
+    NoMatches --> ViewingProfiles: Retry
+    NoMatches --> LoggedIn: Back to Profiles
+}
+
+state MatchFound {
+    MatchFound --> ViewingMatches: View Matches
+    ViewingMatches --> Messaging: Select Match
+    Messaging --> ViewingMatches: Continue Messaging
+    Messaging --> LoggedIn: Back to Matches
+}
+
+[*] --> NotLoggedIn
+@enduml

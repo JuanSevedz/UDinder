@@ -1,0 +1,16 @@
+@startuml authentication_SD
+[*] --> NotLoggedIn
+
+state NotLoggedIn {
+    [*] --> SignIn
+    SignIn --> SignUp: New User?
+    SignIn --> LoggedIn: Existing User
+    SignUp --> LoggedIn: Registered
+}
+
+state LoggedIn {
+    [*] --> Idle
+}
+
+[*] --> NotLoggedIn
+@enduml

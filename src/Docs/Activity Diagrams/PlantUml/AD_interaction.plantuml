@@ -1,0 +1,16 @@
+@startuml User_interaction_AD
+|User|
+start
+if (Match?) then (yes)
+    :Go to match;
+    :Select match profile;
+    :Send message;
+    :View notifications;
+    :Respond to message;
+    
+else (no)
+    :Wait for matches;
+    :Check for new matches;
+endif
+stop
+@enduml
