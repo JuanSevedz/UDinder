@@ -1,78 +1,79 @@
 # Welcome to UDinder!
-There is information about us:
-1. [Overview](#overview)
-2. [Key Features](#key-features)
-3. [Getting Started](#getting-started)
-4. [Contributing](#contributing)
-5. [Feedback](#feedback)
-6. [Stay Connected](#stay-connected)
-7. [Diagrams](#diagrams)
-    - [Deployment Diagram](#deployment-diagrams)
-    - [Activity Diagram](#activity-diagram)
+1. [About](#about-udinderfinal_project)
+2. [Develop_process](#user-stories)
+3. [Diagrams](#diagrams)
+    - [Deployment Diagram](#deployment-diagram)
+    - [Activity Diagram](#activity-diagrams)
     - [Sequence Diagram](#sequence-diagram)
-    - [State Diagram](#state-diagram)
+    - [State Diagram](#state-diagrams)
+    - [Class Diagram](#class-diagram)
     - [CRC cards](#crc-cards)
-    - [Class Diagram](#class-diagrams)
-8. [Poster(Beta)](#poster)
-9. [Paper](#paper)
-10. [Technical Report](#technical-report)
+   
+4. [Poster(Beta)](#poster)
+5. [Paper](#paper)
+6. [Technical Report](#technical-report)
 
+## About UDinder(Final_project):
+The project involves creating a monolithic software for an online platform. In terms of technical decisions, the project focused on key processes such as sign-in, sign-up, authentication, profile completion, and interaction with other user profiles.
 
+Backend development was carried out using Python, leveraging the FastAPI framework. For the frontend graphical interface, HTML, CSS, and JavaScript were chosen, along with the Apache server and the Django framework.
 
-## Overview
-UDinder is a revolutionary dating application designed specifically for young university students. Our platform aims to create meaningful connections among university communities by providing a safe and efficient way for students to meet and interact with one another.
+For managing the database, SQLAlchemy was selected due to its ability to handle database relationships with a syntax similar to that of the programming language.
 
-## Key Features
-- **University-Centric Matching:** UDinder focuses on connecting students within the same university or nearby campuses, enhancing the likelihood of shared interests and experiences.
-- **Profile Verification:** To maintain authenticity and safety, users are required to verify their university email addresses upon sign-up.
-- **Smart Matching Algorithm:** Our algorithm considers various factors such as interests, academic majors, and mutual friends to suggest compatible matches.
-- **Events and Groups:** Users can discover and join university-related events and groups, fostering both romantic and platonic connections.
-- **Privacy Controls:** We prioritize user privacy and offer extensive controls over profile visibility and communication preferences.
-- **Inclusive Community:** UDinder promotes inclusivity and diversity, welcoming students from all backgrounds and orientations.
+## Process Of Development
+Firts, we create the UML diagrams of __Deployment__,__Activities__, __Sequence__, __State__, __Class__ and the __CRC__ cards of each class. 
 
-## Getting Started
-To start exploring and connecting on UDinder, simply download the app from the [App Store](#) or [Google Play Store](#), sign up with your university email address, and complete your profile. Once registered, you can begin swiping through potential matches, joining events, and engaging with your university community.
+## User Stories:
 
-## Contributing
-We welcome contributions from developers, designers, and enthusiasts who are passionate about improving the university dating experience. If you're interested in contributing to UDinder, please check out our [GitHub repository](#) for more information.
-
-## Feedback
-Your feedback is invaluable to us as we strive to enhance the UDinder experience. Whether you have suggestions, questions, or concerns, please don't hesitate to reach out to us at [feedback@udinder.com](mailto:feedback@udinder.com).
-
-## Stay Connected
-To stay updated on the latest news and developments, follow us on [Instagram](#) and [Twitter](#), and join our community on [Facebook](#). You can also subscribe to our newsletter for exclusive updates and insights.
-
-Thank you for choosing UDinder! Let's make university dating more enjoyable and meaningful together.
-
+- **As a user**, I want to be able to sign up for the app so that I can create a profile and start using the platform.
+- **As a developer**, I want to continuously monitor and improve the app's security to protect user data and privacy.
+- **As an administrator**, I want to be able to access the database to view user information and activity for moderation purposes.
+- **As a user**, I want to be able to sign in to the app with my username and password so that I can access my profile and interact with other users.
+- **As an administrator**, I want to be able to block or suspend users who violate the app's community guidelines or terms of service.
+- **As a developer**, I want to implement user authentication functionality to allow users to sign up and sign in securely.
+-**As a user**, I want to be able to view suggested profiles so that I can find potential matches.
+- **As a user**, I want to be able to swipe right or left on profiles to indicate my interest or disinterest.
+- **As an administrator**, I want to be able to review reported profiles and messages to ensure they comply with the app's policies.
+- **As a developer**, I want to implement profile management features to allow users to update their profiles and preferences.
+- **As a user**, I want to receive notifications when I have a match with another user so that I can start messaging them.
+- **As a developer**, I want to implement the matching algorithm to suggest compatible profiles to users.
+- **As a developer**, I want to implement the messaging functionality to allow users to communicate with their matches.
+- **As a user**, I want to be able to send messages to my matches to start a conversation and get to know them better.
+- **As a user**, I want to be able to view my matches and their profiles so that I can keep track of my interactions.
+- **As an administrator**, I want to be able to respond to user inquiries and provide assistance with any issues they may encounter.
+- **As a developer**, I want to implement a reporting system to allow users to report inappropriate behavior or content.
+- **As a developer**, I want to optimize the app's performance and scalability to handle a large number of users and interactions.
 
 ## Diagrams
-### Deployment Diagrams:
-![Deployment_diagram](src/Docs/deployment_diagram/out/DiagramDeploy.png)
+### Deployment Diagram
+![Deployment_diagram](src/Docs/Deployment diagram/deployment_diagram.png)
 
+### Activity Diagrams
+![General_AD](src/Docs/Activity Diagrams/Gen.png)
+![Authentication_AD](src/Docs/Activity Diagrams/authentication_ad.png)
+![Complete_profile_AD](src/Docs/Activity Diagrams/Complete_profile_ad.png)
+![SingUp_AD](src/Docs/Activity Diagrams/Sign_up_AD.png)
+![Swipe_AD](src/Docs/Activity Diagrams/swipe_funtion_AD.png)
+![Interaction_AD](src/Docs/Activity Diagrams/User_interaction_AD.png)
 
-### Activity Diagram
-![Activity Diagram](src/Docs/activity_diagram/out/user_activities.png)
+### Sequence Diagram
+![General_SD](src/Docs/Sequence diagram/sequence_diagram.png)
 
+### State Diagrams
+![Authentication_STD](src/Docs/State diagrams/authentication_SD.png)
+![Interaction_STD](src/Docs/State diagrams/Idle_SD.png)
+![User_STD](src/Docs/State diagrams/user_sd.png)
 
-### Sequence Diagram:
-
-![Sequence Diagram](src/Docs/sequence_diagram/out/class_18.png)
-
-
-### State Diagram:
-![State Diagram](src/Docs/state_diagram/out/main.png)
-
+### Class Diagram
+![General_CD](src/Docs/Class Diagrams/CD_relation_classes.png)
 
 ### CRC cards
-![CRC Card](src/Docs/CRC_cards/All_cards.png)
-
-
-### Class Diagrams
-![Draw.io Diagram](src/Docs/class_diagram/out/18_03_24.png)
-
-![PlantUML Diagram](src/Docs/class_diagram/out/app.png)
-
-
+![All_CRR](src/Docs/CRC Cards/All_CRC.drawio.png)
+![DB_CRC](src/Docs/CRC Cards/DB_CRC.drawio.png)
+![Interaction_CRC](src/Docs/CRC Cards/InteractionProfiles_CRC.drawio.png)
+![Complete_profile_CRC](src/Docs/CRC Cards/Profile_CRC.drawio.png)
+![User_CRC](src/Docs/CRC Cards/User_CRC.drawio.png)
+![User_interface_CRC](src/Docs/CRC Cards/UserInterface_CRC.drawio.png)
 
 ## Poster
 ![UDinder Poster](src/poster/UDinder_poster.png)
@@ -81,4 +82,4 @@ Thank you for choosing UDinder! Let's make university dating more enjoyable and 
 ![PaperOfUDinder](src/paper/paper.pdf)
 
 ## Technical Report
-![Technical Report](src/Docs/report/Reporte Técnico.pdf)
+<!-- ![Technical Report]()" -->
