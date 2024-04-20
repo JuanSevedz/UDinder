@@ -31,7 +31,7 @@ Firts, we create the UML diagrams of __Deployment__,__Activities__, __Sequence__
 - **As a user**, I want to be able to sign in to the app with my username and password so that I can access my profile and interact with other users.
 - **As an administrator**, I want to be able to block or suspend users who violate the app's community guidelines or terms of service.
 - **As a developer**, I want to implement user authentication functionality to allow users to sign up and sign in securely.
--**As a user**, I want to be able to view suggested profiles so that I can find potential matches.
+- **As a user**, I want to be able to view suggested profiles so that I can find potential matches.
 - **As a user**, I want to be able to swipe right or left on profiles to indicate my interest or disinterest.
 - **As an administrator**, I want to be able to review reported profiles and messages to ensure they comply with the app's policies.
 - **As a developer**, I want to implement profile management features to allow users to update their profiles and preferences.
@@ -46,34 +46,34 @@ Firts, we create the UML diagrams of __Deployment__,__Activities__, __Sequence__
 
 ## Diagrams
 ### Deployment Diagram
-![Deployment_diagram](src/Docs/Deployment diagram/deployment_diagram.png)
+![Deployment_diagram](src\Docs\Deployment diagram\deployment_diagram.png)
 
 ### Activity Diagrams
-- ![General_AD](src/Docs/Activity Diagrams/Gen.png)
-- ![Authentication_AD](src/Docs/Activity Diagrams/authentication_ad.png)
-- ![Complete_profile_AD](src/Docs/Activity Diagrams/Complete_profile_ad.png)
-- ![SingUp_AD](src/Docs/Activity Diagrams/Sign_up_AD.png)
-- ![Swipe_AD](src/Docs/Activity Diagrams/swipe_funtion_AD.png)
-- ![Interaction_AD](src/Docs/Activity Diagrams/User_interaction_AD.png)
+- ![General_AD](src\Docs\Activity Diagrams\Gen.png)
+- ![Authentication_AD](src\Docs\Activity Diagrams\authentication_ad.png)
+- ![Complete_profile_AD](src\Docs\Activity Diagrams\Complete_profile_ad.png)
+- ![SingUp_AD](src\Docs\Activity Diagrams\Sign_up_AD.png)
+- ![Swipe_AD](src\Docs/Activity Diagrams\swipe_funtion_AD.png)
+- ![Interaction_AD](src\Docs\Activity Diagrams\User_interaction_AD.png)
 
 ### Sequence Diagram
-- ![General_SD](src/Docs/Sequence diagram/sequence_diagram.png)
+- ![General_SD](src\Docs\Sequence diagram\sequence_diagram.png)
 
 ### State Diagrams
-- ![Authentication_STD](src/Docs/State diagrams/authentication_SD.png)
-- ![Interaction_STD](src/Docs/State diagrams/Idle_SD.png)
-- ![User_STD](src/Docs/State diagrams/user_sd.png)
+- ![Authentication_STD](src\Docs\State diagrams\authentication_SD.png)
+- ![Interaction_STD](src\Docs\State diagrams\Idle_SD.png)
+- ![User_STD](src\Docs\State diagrams\user_sd.png)
 
 ### Class Diagram
-- ![General_CD](src/Docs/Class Diagrams/CD_relation_classes.png)
+- ![General_CD](src\Docs\Class Diagrams\CD_relation_classes.png)
 
 ### CRC cards
-- ![All_CRR](src/Docs/CRC Cards/All_CRC.png)
-- ![DB_CRC](src/Docs/CRC Cards/DB_CRC.png)
-- ![Interaction_CRC](src/Docs/CRC Cards/InteractionProfiles_CRC.png)
-- ![Complete_profile_CRC](src/Docs/CRC Cards/Profile_CRC.png)
-- ![User_CRC](src/Docs/CRC Cards/User_CRC.png)
-- ![User_interface_CRC](src/Docs/CRC Cards/UserInterface_CRC.png)
+- ![All_CRR](src\Docs\CRC Cards\All_CRC.png)
+- ![DB_CRC](src\Docs\CRC Cards\DB_CRC.png)
+- ![Interaction_CRC](src\Docs\CRC Cards\InteractionProfiles_CRC.png)
+- ![Complete_profile_CRC](src\Docs\CRC Cards\Profile_CRC.png)
+- ![User_CRC](src\Docs\CRC Cards\User_CRC.png)
+- ![User_interface_CRC](src\Docs\CRC Cards\UserInterface_CRC.png)
 
 ## Poster
 ![UDinder Poster](src/poster/UDinder_poster.png)
@@ -82,4 +82,4 @@ Firts, we create the UML diagrams of __Deployment__,__Activities__, __Sequence__
 ![PaperOfUDinder](src/paper/paper.pdf)
 
 ## Technical Report
-<!-- ![Technical Report]()" -->
+![Technical Report](src/Docs/UDinder_TechnicalReport.pdf)
