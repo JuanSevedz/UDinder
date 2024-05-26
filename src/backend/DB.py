@@ -8,15 +8,21 @@ and password.
 The passwords are stored as plaintext, without hashing.
 
 """
-
 import sqlite3
-from faker import Faker  # Importar la clase Faker
+import os  # Import the os module
+from faker import Faker
 
 # Create an instance of Faker
 fake = Faker()
 
+# Get the absolute path of the current directory
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Combine the current directory path with the database file name
+db_path = os.path.join(current_directory, "usuarios.db")
+
 # Create a connection to the SQLite database
-conn = sqlite3.connect("usuarios.db")
+conn = sqlite3.connect(db_path)
 c = conn.cursor()
 
 # Create the 'usuarios' table if it doesn't exist
@@ -29,18 +35,16 @@ c.execute(
 )
 
 # Generate and save fake user data
-for _ in range(10): #(#)number of users wished
+for _ in range(10):
     username = fake.user_name()
     email = fake.email()
-    password = fake.password()  # Save the password whithout hash
-
-     # Insert the data into the 'usuarios' table
+    password = fake.password()
     c.execute(
         """INSERT INTO usuarios (username, email, password)
                  VALUES (?, ?, ?)""",
         (username, email, password),
     )
 
-# Save and pull changes
+# Save changes and close the connection
 conn.commit()
 conn.close()
