@@ -1,170 +1,135 @@
-"""Module that uses the sqlite3 and hashlib libraries.
-
-This module provides functions to interact with a SQLite database using sqlite3,
-and to perform hashing operations using hashlib.
 """
+Imports for setting up a FastAPI application with SQLAlchemy database integration.
 
-import sqlite3
-import hashlib
+Imports:
+    - FastAPI: A modern, fast (high-performance) web framework for building APIs with Python.
+    - HTTPException: Exception to return as an HTTP response.
+    - Depends: A decorator for dependencies.
+    - BaseModel: Base class for creating Pydantic models.
+    - EmailStr: Email validation string type from Pydantic.
+    - create_engine: Function to create a SQLAlchemy engine.
+    - Column: Class to represent a column in a database table.
+    - Integer: Integer data type from SQLAlchemy.
+    - String: String data type from SQLAlchemy.
+    - TIMESTAMP: TIMESTAMP data type from SQLAlchemy.
+    - func: Module for SQL functions in SQLAlchemy.
+    - declarative_base: Function for creating a base class for declarative class definitions.
+    - sessionmaker: Function for creating a session factory in SQLAlchemy.
+    - Session: Represents a database session in SQLAlchemy.
+    - datetime: Module for manipulating dates and times.
+    - uvicorn: ASGI server implementation, used for running the FastAPI application.
+
+Note: Ensure you have the necessary packages installed to use these imports.
+"""
+from fastapi import FastAPI, HTTPException, Depends
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError 
+import uvicorn
+from DB import UsuarioCreate, Session, get_db, calculate_age, UserResponse # pylint: disable=E0611
+from user import Usuario
+
+# Importa las clases y funciones necesarias
 
 
-def iniciar_sesion(username_date, password_date):
-    """Attempt to authenticate a user and start a session.
+# Crea una instancia de FastAPI
+app = FastAPI()
 
-    This function tries to authenticate a user using their username and password.
-
-    Args:
-        username (str): The username of the user attempting to log in.
-        password (str): The password provided by the user to log in.
+# Define las rutas y funciones de la API
+@app.get("/")
+def read_root():
+    """Route to '/' wher we can verify if the api is created.
 
     Returns:
-        bool: True if the login is successful, False otherwise.
+        message: ....
     """
+    return {"message": "Welcome to the dating app API!"}
 
-    conn = sqlite3.connect("usuarios.db")
-    c = conn.cursor()
-
+# Otros endpoints de la API pueden ser definidos aquí
+@app.post("/usuarios/")
+def create_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)): # type: ignore
+    """Create a new user"""
     try:
-        # Get the password hash from the database.
-        c.execute(
-            """SELECT password FROM usuarios WHERE username = ?""", (username_date,)
-        )
-        result = c.fetchone()
-
-        if result:
-            # Hash the password provided by the user.
-
-            password_hash = hashlib.sha256(password_date.encode("utf-8")).hexdigest()
-
-            # Compare the resulting hash with the hash stored in the database
-            if password_hash == result[0]:
-                print("\n¡Inicio de sesión exitoso!")
-                return True
-            else:
-                print("¡Contraseña incorrecta!")
-        else:
-            print("Usuario no encontrado")
-
-    except IOError as e:
-        print("Ocurrió un error:", e)
-
-    finally:
-        conn.close()
-
-    return False
+        age = calculate_age(usuario.birth_date)
+        usuario_data = usuario.dict()
+        usuario_data["age"] = age
+        db_usuario = Usuario(**usuario_data)
+        db.add(db_usuario)
+        db.commit()
+        db.refresh(db_usuario)
+        return {"mensaje": "Usuario creado exitosamente"}
+    except ValueError as ve:
+        return {"error": f"ValueError: {ve}"}
+    except IntegrityError as ie:
+        return {"error": f"IntegrityError: {ie}"}
+    except SQLAlchemyError as se:
+        return {"error": f"SQLAlchemyError: {se}"}
 
 
-def registrar_usuario():
-    """Register a new user.
 
-    This function prompts the user to enter a username, email, and password to register a new account.
-    It then checks if the username is already in use and if the email is valid. If not, it raises
-    appropriate ValueError exceptions. If registration is successful, the user's data is inserted
-    into the 'usuarios' table in the database.
-
-    Raises:
-        ValueError: If the username is already in use, if the email is invalid, or if the password is empty.
-        IOError: If an I/O error occurs during the process.
-
-    """
-    conn = sqlite3.connect("usuarios.db")
-    c = conn.cursor()
-
-    registro_exitoso = False
-    while not registro_exitoso:
-        try:
-            # Prompt the user to enter a username
-            username_date = input("Ingrese su nombre de usuario: ")
-
-            # Check if the username is already in use
-            c.execute("""SELECT * FROM usuarios WHERE username = ?""", (username_date,))
-            usuario_existente = c.fetchone()
-            if usuario_existente:
-                raise ValueError(
-                    "El nombre de usuario ya está en uso. Por favor, elija otro."
-                )
-
-            email = input("Ingrese su correo electrónico: ")
-            if "@" not in email or "." not in email:
-                raise ValueError("El correo electrónico ingresado no es válido.")
-
-            password_date = input("Ingrese su contraseña: ")
-            if not password_date:
-                raise ValueError("La contraseña no puede estar vacía.")
-
-            # Hash the password before saving it to the database
-            password_hash = hashlib.sha256(password_date.encode("utf-8")).hexdigest()
-
-            # Insert the user's data into the 'usuarios' table
-            c.execute(
-                """INSERT INTO usuarios (username, email, password)
-                         VALUES (?, ?, ?)""",
-                (username_date, email, password_hash),
-            )
-
-            print("¡Usuario registrado exitosamente!")
-            registro_exitoso = True
-
-        except ValueError as ve:
-            print("Error:", ve)
-            print("Por favor, vuelva a intentar el proceso de registro.")
-
-        except IOError as e:
-            print("Ocurrió un error:", e)
-
-    # Confirm changes and close the connection
-    conn.commit()
-    conn.close()
+@app.get("/usuarios/", response_model=list[UserResponse])
+def read_usuarios(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    """Retrieve a list of users"""
+    usuarios = db.query(Usuario).offset(skip).limit(limit).all()
+    for usuario in usuarios:
+        usuario.age = calculate_age(usuario.birth_date)
+    return usuarios
 
 
-def mostrar_menu(username_date):
-    """Display the menu options after successful login.
+@app.get("/usuarios/{usuario_id}", response_model=UserResponse)
+def read_usuario(usuario_id: int, db: Session = Depends(get_db)): # type: ignore
+    """Retrieve a user by ID"""
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if usuario is None:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    usuario.age = calculate_age(usuario.birth_date)
+    return usuario
 
-    This function continuously displays a menu of options to the user after they have logged in.
-    The options include making swipes, viewing chats (matches), viewing profile, and logging out.
-    It prompts the user to select an option and performs the corresponding action.
+from fastapi import HTTPException
 
-    Args:
-        username_date (str): The username of the logged-in user.
+@app.put("/usuarios/{usuario_id}")
+def update_usuario(usuario_id: int, usuario_data: UsuarioCreate, db: Session = Depends(get_db)):
+    """Update user data"""
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if usuario is None:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    # Actualizar los campos especificados
+    if usuario_data.id:
+        usuario.id = usuario_data.id
+    if usuario_data.name:
+        usuario.name = usuario_data.name
+    if usuario_data.gender:
+        usuario.gender = usuario_data.gender
+    if usuario_data.location:
+        usuario.location = usuario_data.location
+    if usuario_data.preferences:
+        usuario.preferences = usuario_data.preferences
+    
+    # Guardar los cambios en la base de datos
+    db.commit()
+    db.refresh(usuario)
+    return {"mensaje": "Datos de usuario actualizados exitosamente"}
 
-    """
-    while True:
-        print("\n", f"¡Bienvenido {username_date}!")
-        print("\nSeleccione una opción:")
-        print("1. Hacer swipes")
-        print("2. Ver chats (matches)")
-        print("3. Ver perfil")
-        print("4. Cerrar sesión")
 
-        opcion_d = input("Ingrese el número de la opción deseada: ")
 
-        if opcion_d == "1":
-            print("¡Hacer swipes!")
-        elif opcion_d == "2":
-            print("¡Ver chats (matches)!")
-        elif opcion_d == "3":
-            print("¡Ver perfil!")
-        elif opcion_d == "4":
-            print("¡Cerrando sesión!")
-            break
-        else:
-            print("Opción no válida. Por favor, seleccione una opción del 1 al 4.")
+@app.delete("/usuarios/{usuario_id}")
+def delete_usuario(usuario_id: int, db: Session = Depends(get_db)):
+    """Delete a user by ID"""
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if usuario is None:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    db.delete(usuario)
+    db.commit()
+    return {"mensaje": "Usuario eliminado exitosamente"}
 
-# Main
+
+
+
+
+
+
+
+
+# Inicia el servidor Uvicorn
 if __name__ == "__main__":
-    while True:
-        print("\nBienvenido a UDinder.")
-
-        opcion = input("\n¿Desea [r]egistrarse o [i]niciar sesión? ").lower()
-
-        if opcion == "r":
-            registrar_usuario()
-        elif opcion == "i":
-            username = input("Ingrese su nombre de usuario: ")
-            password = input("Ingrese su contraseña: ")
-            if iniciar_sesion(username, password):
-                mostrar_menu(username)
-        else:
-            print(
-                "Opción no válida. Por favor, seleccione 'r' para registrarse o 'i' para iniciar sesión."
-            )
+    print("Starting Uvicorn server...")
+    uvicorn.run(app, host="0.0.0.0", port=8000)
