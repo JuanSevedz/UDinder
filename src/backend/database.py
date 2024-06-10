@@ -28,7 +28,7 @@ from pydantic import BaseModel, EmailStr
 from sqlalchemy import create_engine, Column, Integer, String, TIMESTAMP, func # pylint: disable=unused-import
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.orm import Session
-
+from typing import Optional
 
 
 DATABASE_URL = (
@@ -41,39 +41,46 @@ Session = SessionLocal()
 Base = declarative_base()
 
 # Create tables in the database
-#Base.metadata.create_all(bind=engine)
+print("Creating tables in the database...")
+Base.metadata.create_all(bind=engine)
+print("Tables created successfully!")
 
 
-# Pydantic model for user creation
-class UsuarioCreate(BaseModel):
-    """Pydantic model for creating a new user"""
 
+# Clase Pydantic para la creación de un usuario
+class UserCreate(BaseModel):
     id: int
     email: EmailStr
     name: str
-    gender: str
-    birth_date: datetime
-    preferences: str
-    location: str
+    password: str
+    gender: Optional[str]
+    birth_date: Optional[datetime]
+    preferences: Optional[str]
+    location: Optional[str]
+    age: Optional[int]
 
-
-# Pydantic model for user response
+# Clase Pydantic para la respuesta de un usuario
 class UserResponse(BaseModel):
-    """Pydantic model for user response"""
-
     id: int
-    email: str
+    email: EmailStr
     name: str
-    gender: str
-    birth_date: datetime
-    preferences: str
-    location: str
-    age: int
-
+    gender: Optional[str]
+    birth_date: Optional[datetime]
+    preferences: Optional[str]
+    location: Optional[str]
+    age: Optional[int]
+    
     class Config:
         """Only a validation class to the attributes
         """
         from_attributes = True
+
+class UserUpdate(BaseModel):
+    """Pydantic model for updating an existing user"""
+    name: Optional[str] = None
+    password: Optional[str] = None
+    preferences: Optional[str] = None
+    location: Optional[str] = None
 
 
 # Dependency to get the database session
@@ -89,5 +96,5 @@ def get_db() -> Session: # type: ignore
 # Function to calculate age from birth date
 def calculate_age(birth_date: datetime) -> int:
     """Calculate age from birth date"""
-    return datetime.now().year - birth_date.year
-
+    today = datetime.now()
+    return today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))

@@ -24,38 +24,49 @@ Note: Ensure you have the necessary packages installed to use these imports.
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError 
 import uvicorn
-from DB import UsuarioCreate, Session, get_db, calculate_age, UserResponse # pylint: disable=E0611
-from user import Usuario
+from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
+from models import User
+from auth import Authentication
+# Import the necessary classes and functions
 
-# Importa las clases y funciones necesarias
 
-
-# Crea una instancia de FastAPI
+# Create a FastAPI instance
 app = FastAPI()
 
-# Define las rutas y funciones de la API
+def get_db_session():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+auth = Authentication(get_db_session())
+
+# Define the API routes and functions
 @app.get("/")
 def read_root():
-    """Route to '/' wher we can verify if the api is created.
+    """Route to '/' where we can verify if the API is created.
 
     Returns:
         message: ....
     """
     return {"message": "Welcome to the dating app API!"}
 
-# Otros endpoints de la API pueden ser definidos aquí
-@app.post("/usuarios/")
-def create_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)): # type: ignore
-    """Create a new user"""
+# For User
+@app.post("/users/")
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
+    auth = Authentication(db)
+    if auth.is_email_registered(user.email):
+        raise HTTPException(status_code=400, detail="Email is already registered")
     try:
-        age = calculate_age(usuario.birth_date)
-        usuario_data = usuario.dict()
-        usuario_data["age"] = age
-        db_usuario = Usuario(**usuario_data)
-        db.add(db_usuario)
+        age = calculate_age(user.birth_date)
+        user_data = user.dict()
+        user_data["age"] = age
+        db_user = User(**user_data)
+        db.add(db_user)
         db.commit()
-        db.refresh(db_usuario)
-        return {"mensaje": "Usuario creado exitosamente"}
+        db.refresh(db_user)
+        return {"message": "User created successfully"}
     except ValueError as ve:
         return {"error": f"ValueError: {ve}"}
     except IntegrityError as ie:
@@ -63,63 +74,67 @@ def create_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)): # typ
     except SQLAlchemyError as se:
         return {"error": f"SQLAlchemyError: {se}"}
 
-
-
-@app.get("/usuarios/", response_model=list[UserResponse])
-def read_usuarios(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+@app.get("/users/", response_model=list[UserResponse])
+def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)): # type: ignore
     """Retrieve a list of users"""
-    usuarios = db.query(Usuario).offset(skip).limit(limit).all()
-    for usuario in usuarios:
-        usuario.age = calculate_age(usuario.birth_date)
-    return usuarios
+    users = db.query(User).offset(skip).limit(limit).all()
+    for user in users:
+        user.age = calculate_age(user.birth_date)
+    return users
 
-
-@app.get("/usuarios/{usuario_id}", response_model=UserResponse)
-def read_usuario(usuario_id: int, db: Session = Depends(get_db)): # type: ignore
+@app.get("/users/{user_id}", response_model=UserResponse)
+def read_specific_user(user_id: int, db: Session = Depends(get_db)): # type: ignore
     """Retrieve a user by ID"""
-    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
-    if usuario is None:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    usuario.age = calculate_age(usuario.birth_date)
-    return usuario
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.age = calculate_age(user.birth_date)
+    return user
 
-from fastapi import HTTPException
-
-@app.put("/usuarios/{usuario_id}")
-def update_usuario(usuario_id: int, usuario_data: UsuarioCreate, db: Session = Depends(get_db)):
+@app.put("/users/{user_id}", name="update_user")
+def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)): # type: ignore
     """Update user data"""
-    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
-    if usuario is None:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
     # Actualizar los campos especificados
-    if usuario_data.id:
-        usuario.id = usuario_data.id
-    if usuario_data.name:
-        usuario.name = usuario_data.name
-    if usuario_data.gender:
-        usuario.gender = usuario_data.gender
-    if usuario_data.location:
-        usuario.location = usuario_data.location
-    if usuario_data.preferences:
-        usuario.preferences = usuario_data.preferences
+    update_data = user_data.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        if hasattr(user, key):  # Verificar que el campo exista en el modelo User
+            setattr(user, key, value)
     
     # Guardar los cambios en la base de datos
     db.commit()
-    db.refresh(usuario)
-    return {"mensaje": "Datos de usuario actualizados exitosamente"}
+    db.refresh(user)
+    return {"message": "User data updated successfully"}
 
-
-
-@app.delete("/usuarios/{usuario_id}")
-def delete_usuario(usuario_id: int, db: Session = Depends(get_db)):
+@app.delete("/users/{user_id}")
+def delete_account(user_id: int, db: Session = Depends(get_db)): # type: ignore
     """Delete a user by ID"""
-    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
-    if usuario is None:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    db.delete(usuario)
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
     db.commit()
-    return {"mensaje": "Usuario eliminado exitosamente"}
+    return {"message": "User deleted successfully"}
+
+
+# For Authentication 
+@app.post("/login")
+def login_user(email: str, password: str, db: Session = Depends(get_db)):
+    auth = Authentication(db)
+    user = auth.login(email, password)
+    if user:
+        return {"message": "User logged in successfully"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+@app.post("/logout")
+def logout_user(db: Session = Depends(get_db)):
+    auth = Authentication(db)
+    auth.logout()
+    return {"message": "User logged out successfully"}
 
 
 
@@ -128,8 +143,7 @@ def delete_usuario(usuario_id: int, db: Session = Depends(get_db)):
 
 
 
-
-# Inicia el servidor Uvicorn
+# Start the Uvicorn server
 if __name__ == "__main__":
     print("Starting Uvicorn server...")
     uvicorn.run(app, host="0.0.0.0", port=8000)
