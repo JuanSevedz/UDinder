@@ -19,18 +19,21 @@ This project is a backend API built with FastAPI. It provides endpoints for user
 To install and run this project, you'll need Python 3.11 and pip (Python package installer). Follow the steps below:
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/JuanSevedz/UDinder.git
     cd yourproject
     ```
 
 2. Create and activate a virtual environment (optional but recommended):
+
     ```sh
     python -m venv venv
     source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
     ```
 
 3. Install the dependencies:
+
     ```sh
     pip install -r requirements.txt
     ```

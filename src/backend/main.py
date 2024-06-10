@@ -21,11 +21,11 @@ Imports:
 
 Note: Ensure you have the necessary packages installed to use these imports.
 """
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends,File, UploadFile, Form
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError 
 import uvicorn
 from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
-from models import User
+from models import User, Profile
 from auth import Authentication
 # Import the necessary classes and functions
 
@@ -66,6 +66,11 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
+        # Crear perfil asociado al usuario
+        db_profile = Profile(user_id=db_user.id)  # Aquí asumimos que el ID del usuario se genera automáticamente
+        db.add(db_profile)
+        db.commit()
+        db.refresh(db_profile)
         return {"message": "User created successfully"}
     except ValueError as ve:
         return {"error": f"ValueError: {ve}"}
@@ -138,8 +143,57 @@ def logout_user(db: Session = Depends(get_db)):
 
 
 
+# For Profile
 
 
+# Endpoint para subir foto
+@app.post("/profiles/upload-photo/")
+def upload_photo(user_id: int, photo: UploadFile = File(...), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    photo_content = photo.file.read()
+    profile.photo = photo_content
+    db.commit()
+    db.refresh(profile)
+    return {"message": "Photo uploaded successfully"}
+
+# Endpoint para agregar descripción
+@app.put("/profiles/add-description/")
+def add_description(user_id: int, description: str = Form(...), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    profile.description = description
+    db.commit()
+    db.refresh(profile)
+    return {"message": "Description added successfully"}
+
+# Endpoint para colocar intereses
+@app.put("/profiles/set-interests/")
+def set_interests(user_id: int, interests: str = Form(...), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    profile.interests = interests
+    db.commit()
+    db.refresh(profile)
+    return {"message": "Interests set successfully"}
 
 
 
