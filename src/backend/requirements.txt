@@ -30,6 +30,7 @@ dnspython==2.6.1
 email_validator==2.1.1
 eventlet==0.34.2
 fastapi==0.111.0
+fastapi[all]
 fastapi-cli==0.0.4
 Flask==3.0.3
 flask-babel==4.0.0

@@ -22,19 +22,37 @@ Imports:
 Note: Ensure you have the necessary packages installed to use these imports.
 """
 from fastapi import FastAPI, HTTPException, Depends,File, UploadFile, Form
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound 
 import uvicorn
 from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
-from models import User, Profile, Admin
+from fastapi.middleware.cors import CORSMiddleware
+from models import User, Profile
 from routes_admin import router as admin_router
-from auth import *
+from auth import * # pylint: disable=W0401
 
 # Import the necessary classes and functions
 
 
 # Create a FastAPI instance
 app = FastAPI()
+
+# Montar las carpetas de archivos estáticos como rutas estáticas en tu aplicación FastAPI
+app.mount("/static", StaticFiles(directory="../frontend/static"), name="static")
+
+
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Esto permitirá todas las solicitudes de cualquier origen
+    allow_credentials=True,
+    allow_methods=["*"],  # Esto permitirá todos los métodos (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Esto permitirá todos los encabezados en las solicitudes
+)
+
+
 
 def get_db_session():
     db = SessionLocal()
@@ -46,17 +64,26 @@ def get_db_session():
 auth = Authentication(get_db_session())
 
 # Define the API routes and functions
-@app.get("/")
-def read_root():
-    """Route to '/' where we can verify if the API is created.
+@app.get("/", response_class=HTMLResponse)
+async def index():
+    # Leer el archivo HTML y servirlo como respuesta HTML
+    with open("../frontend/templates/index.html", "r") as file:
+        html_content = file.read()
+    return HTMLResponse(content=html_content, status_code=200)
 
-    Returns:
-        message: ....
-    """
-    return {"message": "Welcome to the dating app API!"}
+@app.get("/api/endpoint")
+async def endpoint():
+    return {"message": "This is the response from /api/endpoint"}
+
+@app.get("/hello_ud")
+def hello_ud():
+    """This is a healthcheck service just to validade is backend is up"""
+    return "Welcome to UD!"
+
+
 
 # For User
-@app.post("/users/")
+@app.post("/users/add")
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     auth = Authentication(db)
     if auth.is_email_registered(user.email):
@@ -83,9 +110,9 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         return {"error": f"SQLAlchemyError: {se}"}
 
 @app.get("/users/", response_model=list[UserResponse])
-def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)): # type: ignore
+def read_users(db: Session = Depends(get_db)): # type: ignore
     """Retrieve a list of users"""
-    users = db.query(User).offset(skip).limit(limit).all()
+    users = db.query(User).all()
     for user in users:
         user.age = calculate_age(user.birth_date)
     return users

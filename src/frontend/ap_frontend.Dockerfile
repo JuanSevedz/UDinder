@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.2
 
 # Use an official Python runtime as a parent image
-FROM python:3.10-slim-buster
+FROM python:3.11
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
