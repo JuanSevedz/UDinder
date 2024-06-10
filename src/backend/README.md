@@ -38,6 +38,18 @@ To install and run this project, you'll need Python 3.11 and pip (Python package
     pip install -r requirements.txt
     ```
 
+4. Create an .env archieve:
+
+    ```sh
+    DB_URL=your_database_url
+    DB_USER=your_database_username
+    DB_PASSWORD=your_database_password
+    DB_PORT=your_database_port
+    DB_NAME=your_database_name
+    ```
+
+    
+
 ## Usage
 
 The backend provides a set of RESTful API endpoints to manage users, profiles, matches, messages, and administrative tasks.
@@ -47,11 +59,14 @@ The backend provides a set of RESTful API endpoints to manage users, profiles, m
 ### Users
 
 - `POST /register`: Register a new user
-- `POST /login`: User login
-- `POST /logout`: User logout
 - `GET /users/{user_id}`: Get user by ID
 - `PUT /users/{user_id}`: Update user by ID
 - `DELETE /users/{user_id}`: Delete user by ID
+
+### Authentication
+
+- `POST /login`: User login
+- `POST /logout`: User logout
 
 ### Profiles
 
@@ -72,9 +87,10 @@ The backend provides a set of RESTful API endpoints to manage users, profiles, m
 
 ### Administration
 
-- `GET /admin/reports`: Get user reports
 - `POST /admin/block_user/{user_id}`: Block user by ID
 - `POST /admin/unblock_user/{user_id}`: Unblock user by ID
+
+- `DELETE /users/{user_id}`: Delete user by id
 
 ## Running the Application
 

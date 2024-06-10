@@ -22,11 +22,14 @@ Imports:
 Note: Ensure you have the necessary packages installed to use these imports.
 """
 from fastapi import FastAPI, HTTPException, Depends,File, UploadFile, Form
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError 
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.orm.exc import NoResultFound 
 import uvicorn
 from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
-from models import User, Profile
-from auth import Authentication
+from models import User, Profile, Admin
+from routes_admin import router as admin_router
+from auth import *
+
 # Import the necessary classes and functions
 
 
@@ -114,15 +117,27 @@ def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_d
     db.refresh(user)
     return {"message": "User data updated successfully"}
 
+
+# Delete User and Profile at the same time
 @app.delete("/users/{user_id}")
-def delete_account(user_id: int, db: Session = Depends(get_db)): # type: ignore
-    """Delete a user by ID"""
-    user = db.query(User).filter(User.id == user_id).first()
-    if user is None:
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    try:
+        # Buscar el usuario
+        user = db.query(User).filter(User.id == user_id).one()
+    except NoResultFound:
         raise HTTPException(status_code=404, detail="User not found")
+    
+    # Eliminar el perfil asociado
+    profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    if profile:
+        db.delete(profile)
+    
+    # Eliminar el usuario
     db.delete(user)
     db.commit()
-    return {"message": "User deleted successfully"}
+    
+    return {"message": "User and profile deleted successfully"}
+
 
 
 # For Authentication 
@@ -194,6 +209,12 @@ def set_interests(user_id: int, interests: str = Form(...), db: Session = Depend
     db.commit()
     db.refresh(profile)
     return {"message": "Interests set successfully"}
+
+
+
+
+# route for admin
+app.include_router(admin_router)
 
 
 

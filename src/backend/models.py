@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, LargeBinary, String, TIMESTAMP, Text
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, LargeBinary, String, TIMESTAMP, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from database import  *
@@ -20,6 +20,7 @@ class User(Base):
     age = Column(Integer)
     
     # Define la relación con el perfil
+    admin = relationship("Admin", back_populates="user")
     profile = relationship("Profile", back_populates="user")
 
 class Profile(Base):
@@ -32,6 +33,17 @@ class Profile(Base):
     
     # Define la relación con el usuario
     user = relationship("User", back_populates="profile")
+    
+
+class Admin(Base):
+    """Database model for admin"""
+
+    __tablename__ = "admins"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, unique=True)
+    is_blocked = Column(Boolean, default=False)
+
+    user = relationship("User", back_populates="admin")
 
 
 Base.metadata.create_all(bind=engine)
