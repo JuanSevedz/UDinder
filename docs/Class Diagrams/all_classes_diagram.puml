@@ -2,6 +2,8 @@
 class User {
     - ID: int
     - name: String
+    - email: String
+    - password: String
     - age: int
     - gender: String
     - location: String

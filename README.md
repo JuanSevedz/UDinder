@@ -98,7 +98,7 @@ Firts, we create the UML diagrams of __Deployment__,__Activities__, __Sequence__
 
 ### Class Diagram
 
-<img src="docs/Class Diagrams/Cd.png" alt="This is The Class Diagram" style="display: block; margin: auto; border: 1px solid black;">
+<img src="docs/Class Diagrams/CD.png" alt="This is The Class Diagram" style="display: block; margin: auto; border: 1px solid black;">
 
 ***
 
