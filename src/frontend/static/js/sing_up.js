@@ -6,22 +6,28 @@ fetch('/api/endpoint')
     .catch(error => console.error('Error:', error));
 
 
-async function addUser() {
-        let form = "<table class='new-user-table'>"; // Agrega la clase a la tabla
-        form += "<tr><th>ID</th><th>Email</th><th>Name</th><th>Password</th><th>Gender</th><th>Birth Date</th><th>Preferences</th><th>Location</th></tr>";
-        form += "<tr><td><input type='number' id='txtId'></td>";
-        form += "<td><input type='email' id='txtEmail' required></td>";
-        form += "<td><input type='text' id='txtName' required></td>";
-        form += "<td><input type='text' id='txtPassword' required></td>";
-        form += "<td><input type='text' id='txtGender' required></td>";
-        form += "<td><input type='date' id='txtBirthDate' required></td>";
-        form += "<td><textarea id='txtPreferences' rows='3' required></textarea></td>";
-        form += "<td><input type='text' id='txtLocation' required></td></tr>";
+    async function addUser() {
+        let form = "<div class='new-user-form'>"; // Envuelve la tabla en un contenedor div
+        form += "<table class='new-user-table'>";
+        form += "<tr><th>Field</th><th>Data</th></tr>"; // Encabezados de la tabla
+    
+        form += "<tr><td>ID:</td><td><input type='number' id='txtId'></td></tr>"; // Campo para el ID
+        form += "<tr><td>Email:</td><td><input type='email' id='txtEmail' required></td></tr>"; // Campo para el email
+        form += "<tr><td>Name:</td><td><input type='text' id='txtName' required></td></tr>"; // Campo para el nombre
+        form += "<tr><td>Password:</td><td><input type='text' id='txtPassword' required></td></tr>"; // Campo para la contraseña
+        form += "<tr><td>Gender:</td><td><input type='text' id='txtGender' required></td></tr>"; // Campo para el género
+        form += "<tr><td>Birth Date:</td><td><input type='date' id='txtBirthDate' required></td></tr>"; // Campo para la fecha de nacimiento
+        form += "<tr><td>Preferences:</td><td><textarea id='txtPreferences' rows='3' required></textarea></td></tr>"; // Campo para las preferencias
+        form += "<tr><td>Location:</td><td><input type='text' id='txtLocation' required></td></tr>"; // Campo para la ubicación
+    
         form += "</table>";
-        form += "<button type='button' onclick='createUser()'>Send to DB</button>";
+        form += "<div class='center-button'><button type='button' onclick='createUser()'>Send to DB</button></div>"; // Botón para enviar los datos
+    
+        form += "</div>"; // Cierra el contenedor div
     
         document.getElementById('result').innerHTML = form;
     }
+    
     
 
 // Function to send user data to the server

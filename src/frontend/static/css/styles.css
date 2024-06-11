@@ -2,7 +2,7 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 /* Clase para el fondo */
-/* Clase para el fondo */
+
 .background {
     position: fixed; /* Para mantener el fondo en su lugar independientemente del desplazamiento */
     top: 0; /* Alinear el fondo al borde superior */
@@ -11,7 +11,7 @@ body {
     height: 100%; /* El fondo ocupa toda la altura de la pantalla */
     z-index: -1; /* Coloca el fondo detrás de otros elementos */
     /* Ajusta la transparencia del fondo */
-    opacity: 0.87;
+    opacity: 0.79;
     background-image: url('../../public/background2.webp'); /* Ruta de la imagen de fondo */
     background-size: cover; /* Ajusta la imagen de fondo para cubrir toda la pantalla */
     background-repeat: no-repeat; /* Para evitar que la imagen se repita */
@@ -105,7 +105,7 @@ table {
 
 /* Estilo para la tabla de registro de nuevo usuario */
 .new-user-table {
-    width: 80%; /* Ajusta el ancho de la tabla */
+    width: 40%; /* Ajusta el ancho de la tabla */
     margin: 20px auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil */
@@ -119,7 +119,7 @@ table {
     padding: 8px; /* Añade padding a las celdas */
     text-align: center; /* Centra el texto en las celdas */
     font-family: 'Open Sans', sans-serif; /* Aplica la fuente Open Sans */
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
+    background-color: rgba(236, 126, 126, 0.699); /* Fondo blanco con transparencia */
 }
 
 /* Estilo para el encabezado de la tabla de registro de nuevo usuario */
@@ -130,16 +130,26 @@ table {
 
 /* Estilo para las filas impares de la tabla de registro de nuevo usuario */
 .new-user-table tr:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo con transparencia */
+    background-color: rgba(236, 56, 56, 0.9); /* Fondo con transparencia */
 }
 
 /* Estilo para las filas pares de la tabla de registro de nuevo usuario */
 .new-user-table tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo con transparencia */
+    background-color: rgba(224, 66, 66, 0.863); /* Fondo con transparencia */
 }
 
 /* Estilo para la fila al pasar el ratón de la tabla de registro de nuevo usuario */
 .new-user-table tr:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Fondo con transparencia */
+    background-color: rgba(252, 159, 159, 0.568); /* Fondo con transparencia */
+}
+.form-container {
+    text-align: center; /* Centra el contenido horizontalmente */
 }
 
+.form-container {
+    text-align: center; /* Centra el contenido horizontalmente */
+}
+
+.center-button {
+    text-align: center;
+}
