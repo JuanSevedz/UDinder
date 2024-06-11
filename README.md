@@ -125,7 +125,7 @@ Firts, we create the UML diagrams of __Deployment__,__Activities__, __Sequence__
 ***
 
 ## Poster
-<img src="research/poster/UDinder_poster.png" alt="This is the poster" style="display: block; margin: auto; border: 1px solid black;">
+[Download](research/poster/poster.pdf)
 
 ## Paper
 
