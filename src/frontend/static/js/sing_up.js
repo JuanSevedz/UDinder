@@ -7,37 +7,22 @@ fetch('/api/endpoint')
 
 
 async function addUser() {
-    let form = "";
-    form += "<label for='txtId' id='lblId'>ID:</label>";
-    form += "<input type='number' id='txtId'><br>";
-
-    form += "<label for='txtEmail' id='lblEmail'>Email:</label>";
-    form += "<input type='email' id='txtEmail' required><br>";
-
-    form += "<label for='txtName' id='lblName'>Name:</label>";
-    form += "<input type='text' id='txtName' required><br>";
-
-    form += "<label for='txtPassword' id='lblPasswor'>Password:</label>";
-    form += "<input type='text' id='txtPassword' required><br>";
-
-    form += "<label for='txtGender' id='lblGender'>Gender:</label>";
-    form += "<input type='text' id='txtGender' required><br>";
+        let form = "<table class='new-user-table'>"; // Agrega la clase a la tabla
+        form += "<tr><th>ID</th><th>Email</th><th>Name</th><th>Password</th><th>Gender</th><th>Birth Date</th><th>Preferences</th><th>Location</th></tr>";
+        form += "<tr><td><input type='number' id='txtId'></td>";
+        form += "<td><input type='email' id='txtEmail' required></td>";
+        form += "<td><input type='text' id='txtName' required></td>";
+        form += "<td><input type='text' id='txtPassword' required></td>";
+        form += "<td><input type='text' id='txtGender' required></td>";
+        form += "<td><input type='date' id='txtBirthDate' required></td>";
+        form += "<td><textarea id='txtPreferences' rows='3' required></textarea></td>";
+        form += "<td><input type='text' id='txtLocation' required></td></tr>";
+        form += "</table>";
+        form += "<button type='button' onclick='createUser()'>Send to DB</button>";
     
-
-    form += "<label for='txtBirthDate' id='lblBirthDate'>Birth Date:</label>";
-    form += "<input type='date' id='txtBirthDate' required><br>";
-
-    form += "<label for='txtPreferences' id='lblPreferences'>Preferences:</label>";
-    form += "<textarea id='txtPreferences' rows='3' required></textarea><br>";
-
-    form += "<label for='txtLocation' id='lblLocation'>Location:</label>";
-    form += "<input type='text' id='txtLocation' required><br>";
+        document.getElementById('result').innerHTML = form;
+    }
     
-    form += "<button type='button' onclick='createUser()'>Send to DB</button>";
-    form += "</form>";
-
-    document.getElementById('result').innerHTML = form;
-}
 
 // Function to send user data to the server
 async function createUser() {
@@ -76,6 +61,6 @@ async function createUser() {
         console.error('Error:', error);
     }
 }
-function goAdmin() {
-    window.location.href = 'admin.html';
+function goSing_in(){
+    window.location.href = 'sing_in.html';
 }

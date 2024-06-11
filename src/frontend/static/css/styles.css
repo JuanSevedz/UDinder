@@ -93,40 +93,53 @@ button:hover {
 .boton:hover {
     background-color: #ff3916e7;
 }
-/* Estilo general de la tabla */
+
+
+/* Estilo para la tabla */
 table {
     width: 80%; /* Ajusta el ancho de la tabla */
     margin: 20px auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    box-shadow: 0 2px 3px rgba(0,0,0,0.1); /* Añade una sombra sutil */
+    box-shadow: 0 2px 3px rgb(238, 255, 0); /* Añade una sombra sutil */
 }
 
-/* Estilo para las celdas y encabezados */
-table th, table td {
-    border: 1px solid #ddd; /* Añade un borde sutil */
+/* Estilo para la tabla de registro de nuevo usuario */
+.new-user-table {
+    width: 80%; /* Ajusta el ancho de la tabla */
+    margin: 20px auto; /* Centra la tabla horizontalmente */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Para que la transparencia no afecte a los bordes */
+}
+
+/* Estilo para las celdas y encabezados de la tabla de registro de nuevo usuario */
+.new-user-table th, .new-user-table td {
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Añade un borde sutil */
     padding: 8px; /* Añade padding a las celdas */
     text-align: center; /* Centra el texto en las celdas */
     font-family: 'Open Sans', sans-serif; /* Aplica la fuente Open Sans */
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
 }
 
-/* Estilo para el encabezado de la tabla */
-table th {
-    background-color: #f2f2f2; /* Fondo gris claro */
+/* Estilo para el encabezado de la tabla de registro de nuevo usuario */
+.new-user-table th {
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo con transparencia */
     color: #333; /* Texto oscuro */
 }
 
-/* Estilo para las filas impares */
-table tr:nth-child(odd) {
-    background-color: #f9f9f9; /* Fondo gris muy claro */
+/* Estilo para las filas impares de la tabla de registro de nuevo usuario */
+.new-user-table tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo con transparencia */
 }
 
-/* Estilo para las filas pares */
-table tr:nth-child(even) {
-    background-color: #fff; /* Fondo blanco */
+/* Estilo para las filas pares de la tabla de registro de nuevo usuario */
+.new-user-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo con transparencia */
 }
 
-/* Estilo para la fila al pasar el ratón */
-table tr:hover {
-    background-color: #f1f1f1; /* Fondo gris claro */
+/* Estilo para la fila al pasar el ratón de la tabla de registro de nuevo usuario */
+.new-user-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo con transparencia */
 }
 
