@@ -76,3 +76,6 @@ async function createUser() {
         console.error('Error:', error);
     }
 }
+function goAdmin() {
+    window.location.href = 'admin.html';
+}

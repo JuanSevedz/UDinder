@@ -3,18 +3,29 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
     <script src="../static/js/sing_up.js"></script>
-    
+    <style>
+          
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UDinder</title>
+    
+
 </head>
+
+
+
 <body>
-    <h1>UDinder</h1>
-    <div>
-        <button onclick="addUser()">Sing up</button>
-        
+    <div class="background"></div>
+    <div class="container">
+        <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
+        <h1 class="udinder-title">UDinder</h1>
+        <div class="buttons-container">
+            <button onclick="addUser()">Sing up</button>
+            <button onclick="goAdmin()">Home</button>
+        </div>
+              
     </div>
-    <a href="admin.html" class="boton">Admin Page</a>
     <div id="result"></div>
+   
 </body>
 </html>

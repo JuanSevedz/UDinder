@@ -1,15 +1,52 @@
 body {
-    font-family: Arial, sans-serif;
-    
-    background-image: url('../../public/backgorund.webp'); /* Ruta de la imagen de fondo */
-    background-size: 70% auto; /* La imagen se ajustará automáticamente al tamaño de la pantalla */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+/* Clase para el fondo */
+/* Clase para el fondo */
+.background {
+    position: fixed; /* Para mantener el fondo en su lugar independientemente del desplazamiento */
+    top: 0; /* Alinear el fondo al borde superior */
+    left: 0; /* Alinear el fondo al borde izquierdo */
+    width: 100%; /* El fondo ocupa toda la anchura de la pantalla */
+    height: 100%; /* El fondo ocupa toda la altura de la pantalla */
+    z-index: -1; /* Coloca el fondo detrás de otros elementos */
+    /* Ajusta la transparencia del fondo */
+    opacity: 0.87;
+    background-image: url('../../public/background2.webp'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Ajusta la imagen de fondo para cubrir toda la pantalla */
     background-repeat: no-repeat; /* Para evitar que la imagen se repita */
     background-position: center; /* La imagen se posicionará en el centro */
-    
 }
+
+
 .container {
-    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center; /* Centra verticalmente */
+    height: 100vh;
 }
+
+.udinder-title {
+    color: rgb(255, 0, 0);
+    font-size: 70px;
+    
+    /* Otros estilos... */
+}
+
+.udinder-logo {
+    width: 150px; /* Ajusta el tamaño del logo según sea necesario */
+    /* Otros estilos... */
+}
+
+.container > div > button {
+    margin-top: 0.2vh; /* Ajusta el espacio entre los botones */
+}
+
+.buttons-container {
+    margin-top: 1vh;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
@@ -24,13 +61,17 @@ input, textarea {
 }
 button {
     padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
+    background-color: #f5f5f5e7;
+    color: #f50808;
+    border:none;
     cursor: pointer;
+    transition: background-color 0.9s ease; /* Transición suave para el cambio de color de fondo */
 }
 button:hover {
-    background-color: #0056b3;
+    
+    color: white; /* Cambia el color del texto al pasar el ratón */
+    transform: scale(1.1); /* Ajusta el tamaño del botón al pasar el ratón */
+    background-color: #ec0000; /* Cambia el color de fondo al pasar el ratón */
 }
 .result {
     margin-top: 20px;
@@ -41,7 +82,7 @@ button:hover {
 .boton {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #ff3916e7;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -50,13 +91,42 @@ button:hover {
 
 /* Cambio de estilo al pasar el ratón por encima del botón */
 .boton:hover {
-    background-color: #0056b3;
+    background-color: #ff3916e7;
 }
+/* Estilo general de la tabla */
 table {
-    border: 2px solid;
-    border-collapse: collapse;
+    width: 80%; /* Ajusta el ancho de la tabla */
+    margin: 20px auto; /* Centra la tabla horizontalmente */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1); /* Añade una sombra sutil */
 }
 
-table td, table th {
-    border: 1px solid;
+/* Estilo para las celdas y encabezados */
+table th, table td {
+    border: 1px solid #ddd; /* Añade un borde sutil */
+    padding: 8px; /* Añade padding a las celdas */
+    text-align: center; /* Centra el texto en las celdas */
+    font-family: 'Open Sans', sans-serif; /* Aplica la fuente Open Sans */
 }
+
+/* Estilo para el encabezado de la tabla */
+table th {
+    background-color: #f2f2f2; /* Fondo gris claro */
+    color: #333; /* Texto oscuro */
+}
+
+/* Estilo para las filas impares */
+table tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Fondo gris muy claro */
+}
+
+/* Estilo para las filas pares */
+table tr:nth-child(even) {
+    background-color: #fff; /* Fondo blanco */
+}
+
+/* Estilo para la fila al pasar el ratón */
+table tr:hover {
+    background-color: #f1f1f1; /* Fondo gris claro */
+}
+

@@ -55,3 +55,6 @@ function getUserInfo() {
         alert("Por favor, ingresa un ID válido.");
     }
 }
+function goHome() {
+    window.location.href = 'index.html';
+}
