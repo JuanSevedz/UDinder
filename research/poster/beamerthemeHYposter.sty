@@ -1,0 +1,298 @@
+
+\ProvidesPackage{beamerthemeHYposter}[2024/03/05 beamerposter extension for University of Helsinki]
+\RequirePackage{ifthen}
+%\RequirePackage{beamerthemeHYposter}[2024/03/05]
+%\RequirePackage[utf8]{inputenc}
+\RequirePackage{ragged2e}
+\RequirePackage[]{biblatex}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+\RequirePackage{amsmath,amsthm, amssymb, latexsym}
+\RequirePackage{exscale} 
+\RequirePackage{fontspec}
+\RequirePackage[font={large,bf}]{caption}
+\DeclareCaptionFont{large}{\fontsize{40}{28}\bfseries}
+\RequirePackage[textfont={large,bf}]{caption}
+\RequirePackage[belowskip=20pt,aboveskip=25pt]{caption}
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\captionsetup[figure]{labelformat=empty}
+\captionsetup[table]{labelformat=empty}
+\RequirePackage{csquotes}
+% HYposter beamer theme for producing posters with University of Helsinki visual style
+
+% Free to adapt and modify
+
+\mode<presentation>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set up theme options
+
+\DeclareOption{COM}{
+	\colorlet{TDK}{COM}
+	\renewcommand{\tdknimi}{Distrital University}
+	\renewcommand{\tdknamn}{Advanced-Programming}
+	\renewcommand{\tdkname}{Course Project}}
+	
+
+
+\DeclareOption{twocolumn}{
+	\renewcommand{\insertcolumnwidth}{0.4451\paperwidth}
+}
+
+\DeclareOption{threecolumn}{
+	\renewcommand{\insertcolumnwidth}{0.28\paperwidth}
+}
+
+\DeclareOption{fourcolumn}{
+	\renewcommand{\insertcolumnwidth}{0.22\paperwidth}
+}
+
+\selectcolormodel{rgb}
+
+\definecolor{grey55}{RGB}{140, 140, 140}  %  title grey
+\definecolor{COM}{RGB}{252, 163, 17}  
+
+\newcommand{\flame}{flames/uh.png}
+\newcommand{\tdknimi}{\mbox{}}
+\newcommand{\tdknamn}{\mbox{}}
+\newcommand{\tdkname}{\mbox{}}
+\colorlet{TDK}{white}
+
+\newcommand{\footimage}[1]{\def\footim@ge{#1}}
+
+\newcommand{\titlestart}[1]{\newcommand{\inserttitlestart}{#1}}
+\newcommand{\titleend}[1]{\newcommand{\inserttitleend}{#1}}
+
+\newcommand{\insertleftcorner}{}
+\newcommand{\leftcorner}[1]{\renewcommand{\insertleftcorner}{#1}}
+
+\newcommand{\inserttitlesize}{\veryHuge}
+\newcommand{\titlesize}[1]{\renewcommand{\inserttitlesize}{#1}}
+
+\title{\inserttitlestart~\inserttitleend}
+
+% Boolean which tells whether there is an open 'block' environment
+\newboolean{inblock}
+\setboolean{inblock}{false}
+
+\newcommand{\insertcolumnwidth}{0.29\paperwidth}
+
+% Command to start a new column, ending open block if one exists
+\newcommand{\newcolumn}{\ifthenelse{\boolean{inblock}}{\end{block}}{}\column{\insertcolumnwidth}}
+
+% Set up all environments so the user doesn't have to
+\newenvironment{poster}
+{
+\begin{frame}[t, fragile, environment=poster]
+\begin{columns}[T]\column{0.04\paperwidth}
+}
+{
+\ifthenelse{\boolean{inblock}}{\end{block}}{}
+\column{0.01\paperwidth}\end{columns} 
+\end{frame} 
+}
+
+% Command to start a new block, ending open block if one exists
+\renewcommand{\section}[1]{%
+\ifthenelse{\boolean{inblock}}{\end{block}}{}
+\setboolean{inblock}{true}
+\begin{block}{#1}
+}
+
+% Process options given to the package
+\ProcessOptions\relax
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% headline colors and fonts
+\setbeamercolor{headline}{fg=black,bg=white}
+\setbeamercolor{title coloured}{fg=TDK}
+\setbeamercolor{title grey}{fg=grey55,bg=white}
+\setbeamercolor{author in headline}{fg=black}
+
+\setbeamercolor{institute in footline}{fg=TDK}
+\setbeamercolor{logo in headline}{fg=TDK,bg=white}
+\setbeamercolor{frame title}{fg=TDK,bg=white}
+\setbeamerfont*{title}{size=\veryHuge,series=\bf,parent=structure}
+
+% lines
+%\setbeamercolor{upper separation line head}{fg=ta2orange}
+\setbeamercolor{separation line}{bg=black}
+
+% footline colors and fonts
+\setbeamercolor{footline}{fg=black,bg=white}
+\setbeamerfont{footline}{size=\small}
+
+% poster background, body colors, and fonts
+\setbeamercolor*{normal text}{fg=black,bg=white}
+
+% block environment
+\setbeamercolor*{block body}{bg=white,fg=black}
+\setbeamercolor*{block title}{fg=TDK,bg=white}
+\setbeamerfont{block title}{size=\Huge,series=\bf}
+
+% example environment
+\setbeamercolor*{example title}{fg=TDK,bg=white}
+\setbeamerfont{example title}{size=\veryHuge,series=\bfseries}
+
+\setbeamercolor{alerted text}{fg=TDK}
+
+\setbeamercolor{faculty title}{fg=grey55,bg=white}
+
+\setbeamertemplate{itemize items}[triangle]
+\setbeamercolor{itemize item}{fg=TDK,bg=white}
+\setbeamercolor{enumerate item}{fg=TDK,bg=white}
+\setbeamercolor{description item}{fg=TDK,bg=white}
+\setbeamercolor{caption name}{fg=black,bg=white}
+\setbeamertemplate{caption}[default]
+
+
+\setbeamertemplate{navigation symbols}{}  % no navigation on a poster
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setting up a text block
+\setbeamertemplate{block begin}{
+	\vskip2.60ex%
+ 
+	\begin{beamercolorbox}[ht=0.0ex,dp=0.0ex,center,rounded=false,shadow=false,leftskip=-0.1ex,rightskip=5ex, colsep*=-3.60ex]{block title}% 
+
+		\usebeamerfont*{block title}\MakeUppercase{\sffamily\bfseries\insertblocktitle}
+   \vskip-2.90ex%
+	\end{beamercolorbox}
+	{\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip4ex}}%  
+	\usebeamerfont{block body}
+ \vskip1.0ex%
+	\begin{beamercolorbox}[rounded=false,shadow=false,leftskip=0.1ex,rightskip=-10ex,colsep*=0.60ex,sep=0ex,vmode]{block body}%
+	\setlength{\parskip}{0.5ex}
+	\ifbeamercolorempty[bg]{block body}{\vskip-0.25ex}{\vskip-0.1ex}%
+ 
+
+\end{beamercolorbox}
+}
+\setbeamertemplate{block end}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is the title part
+\setbeamertemplate{headline}{%
+\leavevmode%
+
+\begin{beamercolorbox}[wd=\paperwidth]{title and author}
+\begin{columns}{b}
+	\begin{column}[b]{0.05\paperwidth} % filler
+	\end{column}
+
+	% Typeset the title part differently based on orientation, this is a slightly
+	% quick hack, needs refinement
+	\if@beamerposter@portrait
+
+	% TITLE
+	\begin{column}[b]{0.74\paperwidth}
+ \raggedright
+		\vskip-2ex
+  \hskip-15ex
+  \raggedright
+		\includegraphics[width=0.20\paperwidth]{\flame}\\
+		\vskip10ex
+		\raggedright
+		\usebeamercolor{title coloured}{\color{fg}\inserttitlesize{\MakeUppercase{\sffamily\bfseries\inserttitlestart}}}
+		\vspace{5ex}
+		\usebeamercolor{title grey}{\color{fg}\inserttitlesize{\MakeUppercase{\sffamily\bfseries\inserttitleend}}}
+  %\usebeamerfont*{title}\MakeUppercase{\insertblocktitle}
+	\end{column}
+
+	% AUTHOR LIST
+ \hskip-10ex
+	\begin{column}[b]{0.19\paperwidth}
+		\raggedleft
+		\usebeamercolor{author in headline}{\color{fg}\small{\insertauthor}}
+		\vskip1ex
+  	\vskip1ex
+        \usebeamercolor{author in headline}
+        {\color{fg}\footnotesize{\insertinstitute}}
+  
+     \end{column}
+	% If orientation is landscape, do this:
+	\else
+	% TITLE
+	\begin{column}[b]{0.15\paperwidth}
+		\vskip5ex
+		\includegraphics[width=0.15\paperwidth]{\flame}\\
+ 
+	\end{column}
+
+	\begin{column}[b]{0.47\paperwidth}
+		\raggedright
+		\usebeamercolor{title coloured}{\color{fg}\inserttitlesize{\MakeUppercase{\sffamily\bfseries\inserttitlestart}}}\\
+		\vspace{2ex}
+		\usebeamercolor{title grey}{\color{fg}\inserttitlesize{\MakeUppercase{\sffamily\bfseries\inserttitleend}}}
+	\end{column}
+
+	% AUTHOR LIST
+	\begin{column}[b]{0.2\paperwidth}
+		\raggedright
+		\usebeamercolor{author in headline}{\color{fg}\normalsize{\insertauthor}}
+		\vskip5ex
+		\usebeamercolor{author in headline}{\color{fg}\footnotesize{\insertinstitute}}
+	\end{column}
+	\fi
+	\begin{column}{.05\paperwidth} % filler
+	\end{column}
+\end{columns}
+\end{beamercolorbox}
+
+\vskip3ex
+  \begin{beamercolorbox}[wd=\paperwidth]{line}
+\hskip0.06\paperwidth\rule{0.90\paperwidth}{1pt}
+  \end{beamercolorbox}
+\vskip10ex
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{footline}{  
+  \leavevmode%
+  \begin{beamercolorbox}[ht=6ex, wd=\paperwidth]{footline}
+    \begin{columns}[b]
+      \begin{column}[b]{0.05\paperwidth} 
+      \end{column}
+      \begin{column}[b]{.20\paperwidth}
+      \insertleftcorner
+      \end{column}
+      \begin{column}[b]{.70\paperwidth}
+        \raggedleft 
+        \usebeamercolor{title grey}{\color{fg}\footnotesize{\sffamily\bfseries HELSINGIN YLIOPISTO}\\[0ex]}
+        \usebeamercolor{title grey}{\color{fg}\footnotesize{\sffamily\bfseries HELSINGFORS UNIVERSITET}\\[0ex]}
+        \usebeamercolor{title grey}{\color{fg}\footnotesize{\sffamily\bfseries UNIVERSITY OF HELSINKI}\\[0ex]}     
+        \vskip0.5ex
+        \usebeamercolor{institute in footline}{\color{fg}\footnotesize{\sffamily\bfseries \tdknimi}\\[0ex]}
+        \usebeamercolor{institute in footline}{\color{fg}\footnotesize{\sffamily\bfseries \tdknamn}\\[0ex]}
+        \usebeamercolor{institute in footline}{\color{fg}\footnotesize{\sffamily\bfseries \tdkname}\\[0ex]}
+      \end{column}
+      \begin{column}{.05\paperwidth}
+      \end{column}
+    \end{columns}  
+  \end{beamercolorbox}
+  \vskip2ex%
+}
+\renewcommand\title{\bfseries}
+
+\renewcommand\bibfont{\scriptsize}
+
+\setbeamercolor*{bibliography entry title}{fg=black}
+\setbeamercolor*{bibliography entry author}{fg=black}
+\setbeamercolor*{bibliography entry location}{fg=black}
+\setbeamercolor*{bibliography entry note}{fg=black}
+\setbeamercolor*{bibliography item}{fg=black}
+
+%\renewcommand{\familydefault}{\rmdefault}
+%\renewcommand{\sfdefault}{georgia}%
+
+%\renewcommand{\sfdefault}{phv}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mode<all>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-PDF-mode: t
+%%% TeX-master: "poster"
+%%% End: 
