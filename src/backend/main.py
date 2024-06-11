@@ -75,10 +75,6 @@ async def index():
 async def endpoint():
     return {"message": "This is the response from /api/endpoint"}
 
-@app.get("/hello_ud")
-def hello_ud():
-    """This is a healthcheck service just to validade is backend is up"""
-    return "Welcome to UD!"
 
 
 

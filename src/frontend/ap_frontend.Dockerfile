@@ -21,4 +21,4 @@ COPY ./frontend /frontend/
 EXPOSE 80
 
 # Run the application:
-CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

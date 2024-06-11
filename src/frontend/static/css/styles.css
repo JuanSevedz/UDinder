@@ -32,3 +32,25 @@ button:hover {
     border: 1px solid #ccc;
     background-color: #f9f9f9;
 }
+.boton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Cambio de estilo al pasar el ratón por encima del botón */
+.boton:hover {
+    background-color: #0056b3;
+}
+table {
+    border: 2px solid;
+    border-collapse: collapse;
+}
+
+table td, table th {
+    border: 1px solid;
+}
