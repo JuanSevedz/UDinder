@@ -21,6 +21,7 @@ Imports:
 
 Note: Ensure you have the necessary packages installed to use these imports.
 """
+from typing import List
 from fastapi import FastAPI, HTTPException, Depends,File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
@@ -29,7 +30,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import uvicorn
 from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
 from fastapi.middleware.cors import CORSMiddleware
-from models import User, Profile
+from models import User, Profile, Match
 from routes_admin import router as admin_router
 from auth import * # pylint: disable=W0401
 
@@ -238,6 +239,68 @@ def set_interests(user_id: int, interests: str = Form(...), db: Session = Depend
 
 # route for admin
 app.include_router(admin_router)
+
+
+# Matches Endpoints
+@app.post("/like/{user_id}/{liked_user_id}")
+def like_user(user_id: int, liked_user_id: int, db: Session = Depends(get_db)): # type: ignore
+    if user_id == liked_user_id:
+        raise HTTPException(status_code=400, detail="Users cannot like themselves")
+    
+    # Verificar si ya existe el "like"
+    match = db.query(Match).filter(Match.user_id == user_id, Match.liked_user_id == liked_user_id).first()
+    if match:
+        raise HTTPException(status_code=400, detail="Like already exists")
+    
+    # Crear el "like"
+    new_like = Match(user_id=user_id, liked_user_id=liked_user_id)
+    db.add(new_like)
+    db.commit()
+    db.refresh(new_like)
+
+    # Verificar si el otro usuario también ha indicado que le gusta (es un "match")
+    reciprocal_match = db.query(Match).filter(Match.user_id == liked_user_id, Match.liked_user_id == user_id).first()
+    if reciprocal_match:
+        return {"message": "It's a match!"}
+    
+    return {"message": "Like registered"}
+
+
+
+@app.get("/matches/{user_id}", response_model=List[UserResponse])
+def get_matches(user_id: int, db: Session = Depends(get_db)):
+    # Obtener los "matches" donde hay reciprocidad
+    matches = db.query(Match).filter(
+        Match.user_id == user_id
+    ).all()
+
+    match_user_ids = set()
+    for match in matches:
+        reciprocal_match = db.query(Match).filter(Match.user_id == match.liked_user_id, Match.liked_user_id == user_id).first()
+        if reciprocal_match:
+            match_user_ids.add(match.liked_user_id)
+    
+    # Obtener los detalles de los usuarios con los que hay "match" mutuo
+    matched_users = db.query(User).filter(User.id.in_(match_user_ids)).all()
+    
+    # Convertir los objetos User a UserResponse
+    matched_users_response = [UserResponse.from_orm(user) for user in matched_users]
+    
+    return matched_users_response
+
+
+# Endpoint for Admin delete matches
+@app.delete("/matches/{match_id}")
+def delete_match(match_id: int, db: Session = Depends(get_db)): # type: ignore
+    match = db.query(Match).filter(Match.id == match_id).first()
+    if not match:
+        raise HTTPException(status_code=404, detail="Match not found")
+    
+    db.delete(match)
+    db.commit()
+    return {"message": "Match deleted successfully"}
+
+
 
 
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, LargeBinary, String, TIMESTAMP, Text
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, LargeBinary, String, TIMESTAMP, Text, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from database import  *
@@ -45,5 +45,15 @@ class Admin(Base):
 
     user = relationship("User", back_populates="admin")
 
+class Match(Base):
+    """Datase model for match history"""
+    __tablename__ = 'matches'
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    liked_user_id = Column(Integer, ForeignKey('users.id'))
+    
+    __table_args__ = (UniqueConstraint('user_id', 'liked_user_id', name='unique_match'),)
 
+#This code line create the tables on 'udinder' Database of postgres
 Base.metadata.create_all(bind=engine)
