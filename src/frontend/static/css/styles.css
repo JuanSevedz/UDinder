@@ -1,5 +1,11 @@
 body {
     font-family: Arial, sans-serif;
+    
+    background-image: url('../../public/backgorund.webp'); /* Ruta de la imagen de fondo */
+    background-size: 70% auto; /* La imagen se ajustará automáticamente al tamaño de la pantalla */
+    background-repeat: no-repeat; /* Para evitar que la imagen se repita */
+    background-position: center; /* La imagen se posicionará en el centro */
+    
 }
 .container {
     margin: 20px;
