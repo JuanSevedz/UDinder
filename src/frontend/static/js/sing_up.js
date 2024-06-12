@@ -9,7 +9,7 @@ fetch('/api/endpoint')
     async function addUser() {
         let form = "<div class='new-user-form'>"; // Envuelve la tabla en un contenedor div
         form += "<table class='new-user-table'>";
-        form += "<tr><th>Field</th><th>Data</th></tr>"; // Encabezados de la tabla
+        
     
         form += "<tr><td>ID:</td><td><input type='number' id='txtId'></td></tr>"; // Campo para el ID
         form += "<tr><td>Email:</td><td><input type='email' id='txtEmail' required></td></tr>"; // Campo para el email

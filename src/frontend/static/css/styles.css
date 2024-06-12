@@ -28,9 +28,13 @@ body {
 }
 
 .udinder-title {
-    color: rgb(255, 0, 0);
+    color: rgb(255, 102, 0);
     font-size: 70px;
-    
+    text-shadow: 
+    -3px -3px 0 rgb(0, 0, 0),  
+    3px -3px 0 rgb(0, 0, 0),
+    -3px 3px 0 rgb(0, 0, 0),
+    3px 3px 0 rgb(0, 0, 0)  ;
     /* Otros estilos... */
 }
 
@@ -61,8 +65,8 @@ input, textarea {
 }
 button {
     padding: 10px 15px;
-    background-color: #f5f5f5e7;
-    color: #f50808;
+    background-color: #a80000;
+    color: #ffffff;
     border:none;
     cursor: pointer;
     transition: background-color 0.9s ease; /* Transición suave para el cambio de color de fondo */
@@ -71,7 +75,7 @@ button:hover {
     
     color: white; /* Cambia el color del texto al pasar el ratón */
     transform: scale(1.1); /* Ajusta el tamaño del botón al pasar el ratón */
-    background-color: #ec0000; /* Cambia el color de fondo al pasar el ratón */
+    background-color: rgb(255, 102, 0); /* Cambia el color de fondo al pasar el ratón */
 }
 .result {
     margin-top: 20px;
@@ -100,7 +104,7 @@ table {
     width: 80%; /* Ajusta el ancho de la tabla */
     margin: 20px auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    box-shadow: 0 2px 3px rgb(238, 255, 0); /* Añade una sombra sutil */
+    box-shadow: 0 2px 3px rgba(255, 94, 0, 0); /* Añade una sombra sutil */
 }
 
 /* Estilo para la tabla de registro de nuevo usuario */
@@ -108,24 +112,24 @@ table {
     width: 40%; /* Ajusta el ancho de la tabla */
     margin: 20px auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil */
+    box-shadow: 0 2px 3px rgba(255, 0, 0, 0.1); /* Añade una sombra sutil */
     border-radius: 10px; /* Bordes redondeados */
     overflow: hidden; /* Para que la transparencia no afecte a los bordes */
 }
 
 /* Estilo para las celdas y encabezados de la tabla de registro de nuevo usuario */
 .new-user-table th, .new-user-table td {
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Añade un borde sutil */
+    border: 1px solid rgba(255, 158, 30, 0); /* Añade un borde sutil */
     padding: 8px; /* Añade padding a las celdas */
     text-align: center; /* Centra el texto en las celdas */
     font-family: 'Open Sans', sans-serif; /* Aplica la fuente Open Sans */
-    background-color: rgba(236, 126, 126, 0.699); /* Fondo blanco con transparencia */
+    background-color: rgba(250, 51, 51, 0.699); /* Fondo blanco con transparencia */
 }
 
 /* Estilo para el encabezado de la tabla de registro de nuevo usuario */
 .new-user-table th {
-    background-color: rgba(0, 0, 0, 0.05); /* Fondo con transparencia */
-    color: #333; /* Texto oscuro */
+    background-color: rgb(208, 255, 0); /* Fondo con transparencia */
+    color: #000000; /* Texto oscuro */
 }
 
 /* Estilo para las filas impares de la tabla de registro de nuevo usuario */
@@ -135,12 +139,12 @@ table {
 
 /* Estilo para las filas pares de la tabla de registro de nuevo usuario */
 .new-user-table tr:nth-child(even) {
-    background-color: rgba(224, 66, 66, 0.863); /* Fondo con transparencia */
+    background-color: rgba(241, 47, 47, 0.952); /* Fondo con transparencia */
 }
 
 /* Estilo para la fila al pasar el ratón de la tabla de registro de nuevo usuario */
 .new-user-table tr:hover {
-    background-color: rgba(252, 159, 159, 0.568); /* Fondo con transparencia */
+    background-color: rgb(255, 255, 255); /* Fondo con transparencia */
 }
 .form-container {
     text-align: center; /* Centra el contenido horizontalmente */
@@ -152,4 +156,27 @@ table {
 
 .center-button {
     text-align: center;
+}
+
+
+/* Estilos para la caja de etiquetas */
+.label-box {
+    background-color: rgb(218, 17, 17); /* Color de fondo con transparencia */
+    color: hsl(0, 91%, 50%);
+    padding: 5px; /* Añade un poco de relleno */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.9s ease; /* Transición suave para el cambio de color de fondo */
+}
+
+/* Estilos para las etiquetas del formulario */
+.form-group label {
+    display: block; /* Convierte las etiquetas en elementos de bloque */
+    margin-bottom: 5px; /* Espacio inferior entre la etiqueta y el campo de entrada */
+    color: #ffffff; /* Color del texto blanco */
+}
+/* Estilos para el cuadro de texto */
+.form-group input[type="email"]:hover,
+.form-group input[type="password"]:hover {
+    background-color: rgba(248, 105, 10, 0.897); /* Cambia el color de fondo al pasar el ratón */
+    transition: background-color 0.8s ease; /* Añade una transición suave */
 }
