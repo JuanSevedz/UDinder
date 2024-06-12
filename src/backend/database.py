@@ -37,14 +37,22 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.orm import Session
 from typing import Optional
 
-
+# Define the database URL using environment variables
 DATABASE_URL = (
     f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
     f"@{os.getenv('DB_URL')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
 )
+
+# Create the engine for the database connection
 engine = create_engine(DATABASE_URL)
+
+# Create a session local to the database
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Create a session instance
 Session = SessionLocal()
+
+# Create a base class for declarative class definitions
 Base = declarative_base()
 
 # Create tables in the database
@@ -54,8 +62,22 @@ print("Tables created successfully!")
 
 
 
-# Clase Pydantic para la creación de un usuario
+
 class UserCreate(BaseModel):
+    """
+    Pydantic model for creating a new user.
+
+    Attributes:
+        id (int): The unique identifier for the user.
+        email (EmailStr): The email address of the user.
+        name (str): The name of the user.
+        password (str): The password of the user.
+        gender (str, optional): The gender of the user (optional).
+        birth_date (datetime, optional): The birth date of the user (optional).
+        preferences (str, optional): The preferences of the user (optional).
+        location (str, optional): The location of the user (optional).
+        age (int, optional): The age of the user (optional).
+    """
     id: int
     email: EmailStr
     name: str
@@ -147,7 +169,7 @@ class MessageResponse(BaseModel):
         from_attributes = True
 
 
-# Dependency to get the database session
+
 def get_db() -> Session: # type: ignore
     """
     Dependency to get the database session.
@@ -165,7 +187,7 @@ def get_db() -> Session: # type: ignore
         db.close()
 
 
-# Function to calculate age from birth date
+
 def calculate_age(birth_date: datetime) -> int:
     """
     Calculate age from birth date.

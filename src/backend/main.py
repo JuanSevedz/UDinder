@@ -37,28 +37,30 @@ from routes_admin import router as admin_router
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 
-# Import the necessary classes and functions
-
 
 # Create a FastAPI instance
 app = FastAPI()
-
-# Montar las carpetas de archivos estáticos como rutas estáticas en tu aplicación FastAPI
 app.mount("/static", StaticFiles(directory="../frontend/static"), name="static")
 
 
-# Configurar CORS
+# Configuration of CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Esto permitirá todas las solicitudes de cualquier origen
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Esto permitirá todos los métodos (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"],  # Esto permitirá todos los encabezados en las solicitudes
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
 
 
 def get_db_session():
+    """
+    Get a database session.
+
+    Returns:
+        Session: A database session.
+    """
     db = SessionLocal()
     try:
         yield db
@@ -70,13 +72,24 @@ auth = Authentication(get_db_session())
 # Define the API routes and functions
 @app.get("/", response_class=HTMLResponse)
 async def index():
-    # Leer el archivo HTML y servirlo como respuesta HTML
-    with open("../frontend/templates/index.html", "r") as file:
+    """
+    Get the index page.
+
+    Returns:
+        HTMLResponse: The HTML content of the index page.
+    """
+    with open("../frontend/templates/index.html", "r") as file: # pylint: disable=unspecified-encoding
         html_content = file.read()
     return HTMLResponse(content=html_content, status_code=200)
 
 @app.get("/api/endpoint")
 async def endpoint():
+    """
+    Endpoint for /api/endpoint.
+
+    Returns:
+        dict: A message indicating the response from /api/endpoint.
+    """
     return {"message": "This is the response from /api/endpoint"}
 
 
@@ -84,8 +97,18 @@ async def endpoint():
 
 # For User
 @app.post("/users/add")
-def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    auth = Authentication(db)
+def register_user(user: UserCreate, db: Session = Depends(get_db)): # type: ignore
+    """
+    Register a new user.
+
+    Args:
+        user (UserCreate): The user data to register.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the registration process.
+    """
+    auth = Authentication(db) # pylint: disable=redefined-outer-name
     if auth.is_email_registered(user.email):
         raise HTTPException(status_code=400, detail="Email is already registered")
     try:
@@ -96,8 +119,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
-        # Crear perfil asociado al usuario
-        db_profile = Profile(user_id=db_user.id)  # Aquí asumimos que el ID del usuario se genera automáticamente
+        db_profile = Profile(user_id=db_user.id)
         db.add(db_profile)
         db.commit()
         db.refresh(db_profile)
@@ -111,7 +133,15 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
 @app.get("/users/", response_model=list[UserResponse])
 def read_users(db: Session = Depends(get_db)): # type: ignore
-    """Retrieve a list of users"""
+    """
+    Retrieve a list of users.
+
+    Args:
+        db (Session): The database session.
+
+    Returns:
+        List[UserResponse]: A list of user objects.
+    """
     users = db.query(User).all()
     for user in users:
         user.age = calculate_age(user.birth_date)
@@ -119,7 +149,16 @@ def read_users(db: Session = Depends(get_db)): # type: ignore
 
 @app.get("/users/{user_id}", response_model=UserResponse)
 def read_specific_user(user_id: int, db: Session = Depends(get_db)): # type: ignore
-    """Retrieve a user by ID"""
+    """
+    Retrieve a user by ID.
+
+    Args:
+        user_id (int): The ID of the user to retrieve.
+        db (Session): The database session.
+
+    Returns:
+        UserResponse: The user object.
+    """
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -128,18 +167,26 @@ def read_specific_user(user_id: int, db: Session = Depends(get_db)): # type: ign
 
 @app.put("/users/{user_id}", name="update_user")
 def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)): # type: ignore
-    """Update user data"""
+    """
+    Update user data.
+
+    Args:
+        user_id (int): The ID of the user to update.
+        user_data (UserUpdate): The updated user data.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the update operation.
+    """
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Actualizar los campos especificados
     update_data = user_data.dict(exclude_unset=True)
     for key, value in update_data.items():
-        if hasattr(user, key):  # Verificar que el campo exista en el modelo User
+        if hasattr(user, key): 
             setattr(user, key, value)
-    
-    # Guardar los cambios en la base de datos
+
     db.commit()
     db.refresh(user)
     return {"message": "User data updated successfully"}
@@ -147,19 +194,27 @@ def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_d
 
 # Delete User and Profile at the same time
 @app.delete("/users/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+def delete_user(user_id: int, db: Session = Depends(get_db)): # type: ignore
+    """
+    Delete a user and their associated profile.
+
+    Args:
+        user_id (int): The ID of the user to delete.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the deletion operation.
+    """
     try:
-        # Buscar el usuario
-        user = db.query(User).filter(User.id == user_id).one()
+        
+        user = db.query(User).filter(User.id == user_id).one() # Find User
     except NoResultFound:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="User not found") # pylint: disable=raise-missing-from
     
-    # Eliminar el perfil asociado
     profile = db.query(Profile).filter(Profile.user_id == user_id).first()
     if profile:
         db.delete(profile)
     
-    # Eliminar el usuario
     db.delete(user)
     db.commit()
     
@@ -169,8 +224,19 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 
 # For Authentication 
 @app.post("/login")
-def login_user(email: str, password: str, db: Session = Depends(get_db)):
-    auth = Authentication(db)
+def login_user(email: str, password: str, db: Session = Depends(get_db)): # type: ignore
+    """
+    Log in a user.
+
+    Args:
+        email (str): The user's email.
+        password (str): The user's password.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the login attempt.
+    """
+    auth = Authentication(db) # pylint: disable=redefined-outer-name
     user = auth.login(email, password)
     if user:
         return {"message": "User logged in successfully"}
@@ -178,19 +244,36 @@ def login_user(email: str, password: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
 @app.post("/logout")
-def logout_user(db: Session = Depends(get_db)):
-    auth = Authentication(db)
+def logout_user(db: Session = Depends(get_db)):  # type: ignore
+    """
+    Log out the current user.
+
+    Args:
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the logout operation.
+    """
+    auth = Authentication(db) # pylint: disable=redefined-outer-name
     auth.logout()
     return {"message": "User logged out successfully"}
 
 
 
 # For Profile
-
-
-# Endpoint para subir foto
 @app.post("/profiles/upload-photo/")
-def upload_photo(user_id: int, photo: UploadFile = File(...), db: Session = Depends(get_db)):
+def upload_photo(user_id: int, photo: UploadFile = File(...), db: Session = Depends(get_db)): # type: ignore
+    """
+    Upload a photo for a user profile.
+
+    Args:
+        user_id (int): The ID of the user.
+        photo (UploadFile): The photo file to upload.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the photo upload.
+    """
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -205,9 +288,19 @@ def upload_photo(user_id: int, photo: UploadFile = File(...), db: Session = Depe
     db.refresh(profile)
     return {"message": "Photo uploaded successfully"}
 
-# Endpoint para agregar descripción
 @app.put("/profiles/add-description/")
-def add_description(user_id: int, description: str = Form(...), db: Session = Depends(get_db)):
+def add_description(user_id: int, description: str = Form(...), db: Session = Depends(get_db)): # type: ignore
+    """
+    Add a description to a user's profile.
+
+    Args:
+        user_id (int): The ID of the user.
+        description (str): The description to add.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of adding the description.
+    """
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -223,7 +316,18 @@ def add_description(user_id: int, description: str = Form(...), db: Session = De
 
 # Endpoint para colocar intereses
 @app.put("/profiles/set-interests/")
-def set_interests(user_id: int, interests: str = Form(...), db: Session = Depends(get_db)):
+def set_interests(user_id: int, interests: str = Form(...), db: Session = Depends(get_db)): # type: ignore
+    """
+    Set interests for a user's profile.
+
+    Args:
+        user_id (int): The ID of the user.
+        interests (str): The interests to set.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of setting the interests.
+    """
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -247,21 +351,31 @@ app.include_router(admin_router)
 # Matches Endpoints
 @app.post("/like/{user_id}/{liked_user_id}")
 def like_user(user_id: int, liked_user_id: int, db: Session = Depends(get_db)): # type: ignore
+    """
+    Like a user.
+
+    Args:
+        user_id (int): The ID of the user giving the like.
+        liked_user_id (int): The ID of the user being liked.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the like action.
+    """
     if user_id == liked_user_id:
         raise HTTPException(status_code=400, detail="Users cannot like themselves")
     
-    # Verificar si ya existe el "like"
+    # Verify an existing like or not
     match = db.query(Match).filter(Match.user_id == user_id, Match.liked_user_id == liked_user_id).first()
     if match:
         raise HTTPException(status_code=400, detail="Like already exists")
     
-    # Crear el "like"
+    # Make the"like"
     new_like = Match(user_id=user_id, liked_user_id=liked_user_id)
     db.add(new_like)
     db.commit()
     db.refresh(new_like)
-
-    # Verificar si el otro usuario también ha indicado que le gusta (es un "match")
+    
     reciprocal_match = db.query(Match).filter(Match.user_id == liked_user_id, Match.liked_user_id == user_id).first()
     if reciprocal_match:
         return {"message": "It's a match!"}
@@ -271,8 +385,17 @@ def like_user(user_id: int, liked_user_id: int, db: Session = Depends(get_db)): 
 
 
 @app.get("/matches/{user_id}", response_model=List[UserResponse])
-def get_matches(user_id: int, db: Session = Depends(get_db)):
-    # Obtener los "matches" donde hay reciprocidad
+def get_matches(user_id: int, db: Session = Depends(get_db)): # type: ignore
+    """
+    Get matches for a user.
+
+    Args:
+        user_id (int): The ID of the user.
+        db (Session): The database session.
+
+    Returns:
+        List[UserResponse]: A list of matched users.
+    """
     matches = db.query(Match).filter(
         Match.user_id == user_id
     ).all()
@@ -283,10 +406,8 @@ def get_matches(user_id: int, db: Session = Depends(get_db)):
         if reciprocal_match:
             match_user_ids.add(match.liked_user_id)
     
-    # Obtener los detalles de los usuarios con los que hay "match" mutuo
     matched_users = db.query(User).filter(User.id.in_(match_user_ids)).all()
     
-    # Convertir los objetos User a UserResponse
     matched_users_response = [UserResponse.from_orm(user) for user in matched_users]
     
     return matched_users_response
@@ -295,6 +416,16 @@ def get_matches(user_id: int, db: Session = Depends(get_db)):
 # Endpoint for Admin delete matches
 @app.delete("/matches/{match_id}")
 def delete_match(match_id: int, db: Session = Depends(get_db)): # type: ignore
+    """
+    Delete a match.
+
+    Args:
+        match_id (int): The ID of the match to delete.
+        db (Session): The database session.
+
+    Returns:
+        dict: A message indicating the result of the deletion operation.
+    """
     match = db.query(Match).filter(Match.id == match_id).first()
     if not match:
         raise HTTPException(status_code=404, detail="Match not found")
@@ -305,65 +436,105 @@ def delete_match(match_id: int, db: Session = Depends(get_db)): # type: ignore
 
 # Functions to send and recive messages
 
-def create_message(db: Session, message: MessageCreate):
-    # Crea un nuevo mensaje en la base de datos
+def create_message(db: Session, message: MessageCreate): # type: ignore
+    """
+    Create a new message.
+
+    Args:
+        db (Session): The database session.
+        message (MessageCreate): The message data.
+
+    Returns:
+        Message: The created message.
+    """
     db_message = Message(**message.dict())
     db.add(db_message)
     db.commit()
     db.refresh(db_message)
     return db_message
 
-def get_user_messages(db: Session, user_id: str):
-    # Obtiene los mensajes de un usuario de la base de datos
+def get_user_messages(db: Session, user_id: str): # type: ignore
+    """
+    Get messages for a user.
+
+    Args:
+        db (Session): The database session.
+        user_id (str): The ID of the user.
+
+    Returns:
+        List[Message]: A list of messages for the user.
+    """
     return db.query(Message).filter(Message.receiver_id == user_id).all()
 
-# Endpoint para enviar un mensaje
+
 @app.post("/messages/", response_model=MessageResponse)
-def send_message(message: MessageCreate, db: Session = Depends(get_db)):
-    # Comprobar si el usuario receptor existe
+def send_message(message: MessageCreate, db: Session = Depends(get_db)): # type: ignore
+    """
+    Send a message.
+
+    Args:
+        message (MessageCreate): The message data.
+        db (Session): The database session.
+
+    Returns:
+        MessageResponse: The created message.
+    """
     receiver = db.query(User).filter(User.id == message.receiver_id).first()
     if receiver is None:
-        raise HTTPException(status_code=404, detail="El usuario receptor no existe")
+        raise HTTPException(status_code=404, detail="The receiving user does not exist")
 
-    # Verificar si el remitente y el receptor son el mismo usuario
+    # Is the same user
     if message.sender_id == message.receiver_id:
-        raise HTTPException(status_code=400, detail="No puedes enviar un mensaje a ti mismo")
+        raise HTTPException(status_code=400, detail="You can't send a message to yourself")
 
-    # Verificar si existe un match entre el remitente y el receptor
     match = db.query(Match).filter(
         ((Match.user_id == message.sender_id) & (Match.liked_user_id == message.receiver_id)) |
         ((Match.user_id == message.receiver_id) & (Match.liked_user_id == message.sender_id))
     ).first()
     if not match:
-        raise HTTPException(status_code=400, detail="No hay match entre el remitente y el receptor")
+        raise HTTPException(status_code=400, detail="There is no match between the sender and the receiver")
 
-    # Si el usuario receptor existe y hay un match, crear el mensaje en la base de datos
     return create_message(db=db, message=message)
 
-# Endpoint para obtener los mensajes de un usuario
+
 @app.get("/messages/{user_id}/", response_model=list[MessageResponse])
-def get_user_messages_endpoint(user_id: str, db: Session = Depends(get_db)):
-    # Comprobar si el usuario existe
+def get_user_messages_endpoint(user_id: str, db: Session = Depends(get_db)): # type: ignore
+    """
+    Get messages for a user.
+
+    Args:
+        user_id (str): The ID of the user.
+        db (Session): The database session.
+
+    Returns:
+        List[MessageResponse]: A list of messages for the user.
+    """
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
-        raise HTTPException(status_code=404, detail="El usuario no existe")
+        raise HTTPException(status_code=404, detail="User does not exist")
 
-    # Obtener los mensajes del usuario
+    
     messages = get_user_messages(db, user_id=user_id)
     return messages
 
 
-# Endpoint para borrar un mensaje
 @app.delete("/messages/{message_id}/", response_model=None)
-def delete_message(message_id: int, db: Session = Depends(get_db)):
-    # Buscar el mensaje en la base de datos
+def delete_message(message_id: int, db: Session = Depends(get_db)): # type: ignore
+    """
+    Delete a message.
+
+    Args:
+        message_id (int): The ID of the message to delete.
+        db (Session): The database session.
+
+    Returns:
+        None: Indicates successful deletion.
+    """
     message = db.query(Message).filter(Message.id == message_id).first()
 
-    # Si el mensaje no existe, levantar una excepción HTTP 404
     if not message:
-        raise HTTPException(status_code=404, detail="El mensaje no fue encontrado")
+        raise HTTPException(status_code=404, detail="The message was not found")
 
-    # Borrar el mensaje de la base de datos
     db.delete(message)
     db.commit()
     

@@ -60,15 +60,46 @@ Usage:
     ```
     
 """
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, LargeBinary, String, TIMESTAMP, Text, UniqueConstraint
+
+from sqlalchemy import (
+    Boolean,
+    Column,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    String,
+    TIMESTAMP,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from database import  * # pylint: disable=wildcard-import, unused-wildcard-import
+from database import *  # pylint: disable=wildcard-import, unused-wildcard-import
+
 Base = declarative_base()
 
 
 class User(Base):
-    """Database model for user"""
+    """
+    Database model for representing a user.
+
+    This model defines the structure of the 'users' table in the database.
+
+    Attributes:
+        id (int): The unique identifier for the user.
+        email (str): The email address of the user.
+        name (str): The name of the user.
+        password (str): The password of the user.
+        gender (str, optional): The gender of the user (optional).
+        birth_date (datetime, optional): The birth date of the user (optional).
+        preferences (str, optional): The preferences of the user (optional).
+        location (str, optional): The location of the user (optional).
+        age (int, optional): The age of the user (optional).
+
+    Relationships:
+        admin (Admin): A one-to-one relationship with the Admin model.
+        profile (Profile): A one-to-one relationship with the Profile model.
+    """
 
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=False)
@@ -80,25 +111,53 @@ class User(Base):
     preferences = Column(String)
     location = Column(String)
     age = Column(Integer)
-    
-    # Define la relación con el perfil
+
     admin = relationship("Admin", back_populates="user")
     profile = relationship("Profile", back_populates="user")
 
+
 class Profile(Base):
+    """
+    Database model for representing a user profile.
+
+    This model defines the structure of the 'profiles' table in the database.
+
+    Attributes:
+        id (int): The unique identifier for the profile.
+        user_id (int): The foreign key referencing the associated user.
+        photo (bytes, optional): The photo of the user (optional).
+        description (str, optional): The description of the user (optional).
+        interests (str, optional): The interests of the user (optional).
+
+    Relationships:
+        user (User): A one-to-one relationship with the User model.
+    """
+
     __tablename__ = "profiles"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     photo = Column(LargeBinary, nullable=True)
     description = Column(Text, nullable=True)
     interests = Column(Text, nullable=True)
-    
-    # Define la relación con el usuario
+
+    # Relationship with User class
     user = relationship("User", back_populates="profile")
-    
+
 
 class Admin(Base):
-    """Database model for admin"""
+    """
+    Database model for representing an admin.
+
+    This model defines the structure of the 'admins' table in the database.
+
+    Attributes:
+        id (int): The unique identifier for the admin.
+        user_id (int): The foreign key referencing the associated user.
+        is_blocked (bool): Indicates whether the admin is blocked.
+
+    Relationships:
+        user (User): A one-to-one relationship with the User model.
+    """
 
     __tablename__ = "admins"
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -107,26 +166,61 @@ class Admin(Base):
 
     user = relationship("User", back_populates="admin")
 
+
 class Match(Base):
-    """Datase model for match history"""
-    __tablename__ = 'matches'
-    
+    """
+    Database model for representing match history.
+
+    This model defines the structure of the 'matches' table in the database.
+
+    Attributes:
+        id (int): The unique identifier for the match.
+        user_id (int): The foreign key referencing the user who made the like.
+        liked_user_id (int): The foreign key referencing the user who received the like.
+
+    Constraints:
+        UniqueConstraint: Ensures that each match is unique between two users.
+
+    """
+
+    __tablename__ = "matches"
+
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    liked_user_id = Column(Integer, ForeignKey('users.id'))
-    
-    __table_args__ = (UniqueConstraint('user_id', 'liked_user_id', name='unique_match'),)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    liked_user_id = Column(Integer, ForeignKey("users.id"))
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "liked_user_id", name="unique_match"),
+    )
+
 
 class Message(Base):
-    __tablename__ = 'messages'
+    """
+    Database model for representing messages.
+
+    This model defines the structure of the 'messages' table in the database.
+
+    Attributes:
+        id (int): The unique identifier for the message.
+        sender_id (int): The foreign key referencing the sender of the message.
+        receiver_id (int): The foreign key referencing the receiver of the message.
+        message (str): The content of the message.
+
+    Relationships:
+        sender (User): A relationship with the User model representing the sender.
+        receiver (User): A relationship with the User model representing the receiver.
+    """
+
+    __tablename__ = "messages"
 
     id = Column(Integer, primary_key=True, index=True)
-    sender_id = Column(Integer, ForeignKey('users.id'))
-    receiver_id = Column(Integer, ForeignKey('users.id'))
+    sender_id = Column(Integer, ForeignKey("users.id"))
+    receiver_id = Column(Integer, ForeignKey("users.id"))
     message = Column(String)
 
     sender = relationship("User", foreign_keys=[sender_id])
     receiver = relationship("User", foreign_keys=[receiver_id])
 
-#This code line create the tables on 'udinder' Database of postgres
+
+# This code line create the tables on 'udinder' Database of postgres
 Base.metadata.create_all(bind=engine)
