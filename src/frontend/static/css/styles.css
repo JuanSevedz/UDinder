@@ -2,6 +2,21 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.section {
+    padding: 50px;
+    margin: 50px 0;
+}
+#features {
+    background-color: #f9f9f9;
+}
+#about {
+    background-color: #f9f9f9;
+}
+#contact {
+    background-color: #f9f9f9;
+}
+
+
 /* Clase para el fondo */
 .background {
     position: fixed; /* Para mantener el fondo en su lugar independientemente del desplazamiento */
