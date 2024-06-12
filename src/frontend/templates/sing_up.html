@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
     <script src="../static/js/sing_up.js"></script>
     <style>
           
@@ -10,12 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UDinder</title>
 </head>
-<body onload="addUser()"> <!-- Llama a la función createLoginForm() cuando se carga la página -->
+<body>
     <div class="background"></div>
     <div class="container">
         <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
         <h1 class="udinder-title">UDinder</h1>
-        
+        <div class="buttons-container">
+            <button onclick="addUser()">New user</button>
+        </div>
     </div>
    
     <div id="result"></div>

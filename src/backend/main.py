@@ -30,7 +30,7 @@ from database import (MessageCreate, MessageResponse,  # pylint: disable=E0611
                       UserUpdate, calculate_age, get_db)
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from models import Match, Message, Profile, User
 from routes_admin import router as admin_router
@@ -69,6 +69,20 @@ def get_db_session():
 
 auth = Authentication(get_db_session())
 
+@app.get("/favicon.ico")
+async def favicon():
+    """
+    Serve the favicon.ico file.
+
+    This endpoint serves the favicon.ico file from the static/images directory.
+    The favicon is a small icon that appears in the browser tab next to the site's title.
+
+    Returns:
+        FileResponse: The response containing the favicon.ico file.
+    """
+    return FileResponse("static/images/favicon.ico")
+
+
 # Define the API routes and functions
 @app.get("/", response_class=HTMLResponse)
 async def index():
@@ -81,17 +95,6 @@ async def index():
     with open("../frontend/templates/index.html", "r") as file: # pylint: disable=unspecified-encoding
         html_content = file.read()
     return HTMLResponse(content=html_content, status_code=200)
-
-@app.get("/api/endpoint")
-async def endpoint():
-    """
-    Endpoint for /api/endpoint.
-
-    Returns:
-        dict: A message indicating the response from /api/endpoint.
-    """
-    return {"message": "This is the response from /api/endpoint"}
-
 
 
 

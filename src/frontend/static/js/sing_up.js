@@ -1,6 +1,6 @@
 const URL_BASE = "http://localhost:8000";
 
-fetch('/api/endpoint')
+fetch(`${URL_BASE}/api/endpoint`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
@@ -19,9 +19,9 @@ fetch('/api/endpoint')
         form += "<tr><td>Birth Date:</td><td><input type='date' id='txtBirthDate' required></td></tr>"; // Campo para la fecha de nacimiento
         form += "<tr><td>Preferences:</td><td><textarea id='txtPreferences' rows='3' required></textarea></td></tr>"; // Campo para las preferencias
         form += "<tr><td>Location:</td><td><input type='text' id='txtLocation' required></td></tr>"; // Campo para la ubicación
-    
+        form += "<tr><td>age:</td><td><input type='number' id='txtAge' required></td></tr>";
         form += "</table>";
-        form += "<div class='center-button'><button type='button' onclick='createUser(); goLogin()'>Sing up</button></div>"; // Botón para enviar los datos
+        form += "<div class='center-button'><button type='button' onclick='createUser()'>Send to DB</button></div>"; // Botón para enviar los datos
     
         form += "</div>"; // Cierra el contenedor div
     
@@ -59,20 +59,11 @@ async function createUser() {
         });
         const result = await response.json();
         if (response.ok) {
-            document.getElementById('result').textContent = `User created successfully. Age: ${result.age}`;
+            document.getElementById('result').textContent = `User created successfully`;
         } else {
             document.getElementById('result').textContent = `Error: ${result.detail}`;
         }
     } catch (error) {
         console.error('Error:', error);
     }
-}
-function goSing_in(){
-    window.location.href = 'sing_in.html';
-}
-
-function goLogin(){
-    window.location.href = 'login.html'
-
-
 }
