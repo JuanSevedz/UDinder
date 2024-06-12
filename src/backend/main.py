@@ -28,11 +28,11 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound 
 import uvicorn
-from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
+from database import MessageCreate, MessageResponse, UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
 from fastapi.middleware.cors import CORSMiddleware
 from models import User, Profile, Match, Message
 from routes_admin import router as admin_router
-from auth import * # pylint: disable=W0401
+from auth import * # pylint: disable=wildcard-import, unused-wildcard-import
 
 # Import the necessary classes and functions
 
@@ -314,8 +314,6 @@ def get_user_messages(db: Session, user_id: str):
     # Obtiene los mensajes de un usuario de la base de datos
     return db.query(Message).filter(Message.receiver_id == user_id).all()
 
-
-# Endpoint para enviar un mensaje
 # Endpoint para enviar un mensaje
 @app.post("/messages/", response_model=MessageResponse)
 def send_message(message: MessageCreate, db: Session = Depends(get_db)):
