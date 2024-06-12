@@ -1,8 +1,8 @@
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-/* Clase para el fondo */
 
+/* Clase para el fondo */
 .background {
     position: fixed; /* Para mantener el fondo en su lugar independientemente del desplazamiento */
     top: 0; /* Alinear el fondo al borde superior */
@@ -17,7 +17,6 @@ body {
     background-repeat: no-repeat; /* Para evitar que la imagen se repita */
     background-position: center; /* La imagen se posicionará en el centro */
 }
-
 
 .container {
     display: flex;
@@ -34,13 +33,13 @@ body {
     -3px -3px 0 rgb(0, 0, 0),  
     3px -3px 0 rgb(0, 0, 0),
     -3px 3px 0 rgb(0, 0, 0),
-    3px 3px 0 rgb(0, 0, 0)  ;
-    /* Otros estilos... */
+    3px 3px 0 rgb(0, 0, 0);
+    margin: 0; /* Elimina el margen por defecto del título */
 }
 
 .udinder-logo {
     width: 150px; /* Ajusta el tamaño del logo según sea necesario */
-    /* Otros estilos... */
+    margin-bottom: 10px; /* Añade un margen inferior para espacio entre el logo y el título */
 }
 
 .container > div > button {
@@ -54,35 +53,41 @@ body {
 .form-group {
     margin-bottom: 15px;
 }
+
 label {
     display: block;
     margin-bottom: 5px;
 }
+
 input, textarea {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
+    color: black; /* Color de las letras al escribir */
 }
+
 button {
     padding: 10px 15px;
     background-color: #a80000;
     color: #ffffff;
-    border:none;
+    border: none;
     cursor: pointer;
     transition: background-color 0.9s ease; /* Transición suave para el cambio de color de fondo */
 }
+
 button:hover {
-    
     color: white; /* Cambia el color del texto al pasar el ratón */
     transform: scale(1.1); /* Ajusta el tamaño del botón al pasar el ratón */
     background-color: rgb(255, 102, 0); /* Cambia el color de fondo al pasar el ratón */
 }
+
 .result {
     margin-top: 20px;
     padding: 10px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
 }
+
 .boton {
     display: inline-block;
     padding: 10px 20px;
@@ -98,7 +103,6 @@ button:hover {
     background-color: #ff3916e7;
 }
 
-
 /* Estilo para la tabla */
 table {
     width: 80%; /* Ajusta el ancho de la tabla */
@@ -110,7 +114,7 @@ table {
 /* Estilo para la tabla de registro de nuevo usuario */
 .new-user-table {
     width: 40%; /* Ajusta el ancho de la tabla */
-    margin: 20px auto; /* Centra la tabla horizontalmente */
+    margin: 10px auto; /* Centra la tabla horizontalmente y reduce el margen superior e inferior */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
     box-shadow: 0 2px 3px rgba(255, 0, 0, 0.1); /* Añade una sombra sutil */
     border-radius: 10px; /* Bordes redondeados */
@@ -119,11 +123,11 @@ table {
 
 /* Estilo para las celdas y encabezados de la tabla de registro de nuevo usuario */
 .new-user-table th, .new-user-table td {
-    border: 1px solid rgba(255, 158, 30, 0); /* Añade un borde sutil */
+    border: 1px solid rgba(255, 30, 30, 0.13); /* Añade un borde sutil */
     padding: 8px; /* Añade padding a las celdas */
     text-align: center; /* Centra el texto en las celdas */
     font-family: 'Open Sans', sans-serif; /* Aplica la fuente Open Sans */
-    background-color: rgba(250, 51, 51, 0.699); /* Fondo blanco con transparencia */
+    background-color: rgba(236, 126, 126, 0.699); /* Fondo blanco con transparencia */
 }
 
 /* Estilo para el encabezado de la tabla de registro de nuevo usuario */
@@ -144,10 +148,7 @@ table {
 
 /* Estilo para la fila al pasar el ratón de la tabla de registro de nuevo usuario */
 .new-user-table tr:hover {
-    background-color: rgb(255, 255, 255); /* Fondo con transparencia */
-}
-.form-container {
-    text-align: center; /* Centra el contenido horizontalmente */
+    background-color: rgb(255, 102, 0); /* Fondo con transparencia */
 }
 
 .form-container {
@@ -158,10 +159,9 @@ table {
     text-align: center;
 }
 
-
 /* Estilos para la caja de etiquetas */
 .label-box {
-    background-color: rgb(218, 17, 17); /* Color de fondo con transparencia */
+    background-color: rgba(218, 17, 17, 0.8); /* Color de fondo con transparencia */
     color: hsl(0, 91%, 50%);
     padding: 5px; /* Añade un poco de relleno */
     border-radius: 5px; /* Bordes redondeados */
@@ -174,9 +174,15 @@ table {
     margin-bottom: 5px; /* Espacio inferior entre la etiqueta y el campo de entrada */
     color: #ffffff; /* Color del texto blanco */
 }
+
 /* Estilos para el cuadro de texto */
 .form-group input[type="email"]:hover,
 .form-group input[type="password"]:hover {
     background-color: rgba(248, 105, 10, 0.897); /* Cambia el color de fondo al pasar el ratón */
     transition: background-color 0.8s ease; /* Añade una transición suave */
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    color: black; /* Cambia el color de las letras al escribir */
 }

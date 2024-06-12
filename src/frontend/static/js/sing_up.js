@@ -21,7 +21,7 @@ fetch('/api/endpoint')
         form += "<tr><td>Location:</td><td><input type='text' id='txtLocation' required></td></tr>"; // Campo para la ubicación
     
         form += "</table>";
-        form += "<div class='center-button'><button type='button' onclick='createUser()'>Send to DB</button></div>"; // Botón para enviar los datos
+        form += "<div class='center-button'><button type='button' onclick='createUser(); goLogin()'>Sing up</button></div>"; // Botón para enviar los datos
     
         form += "</div>"; // Cierra el contenedor div
     
@@ -69,4 +69,10 @@ async function createUser() {
 }
 function goSing_in(){
     window.location.href = 'sing_in.html';
+}
+
+function goLogin(){
+    window.location.href = 'login.html'
+
+
 }

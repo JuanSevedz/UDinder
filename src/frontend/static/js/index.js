@@ -15,3 +15,9 @@ function goUser(){
 window.location.href = 'user.html';
 
     }
+
+    function goLogin(){
+        window.location.href = 'login.html'
+        
+    }
+

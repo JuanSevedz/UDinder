@@ -24,7 +24,7 @@ async function createLoginForm() {
 
     form += "<div class='center-button'>";
     form += "<button type='button' onclick='loginUser()'>Login</button>";
-    form += "<button type='button' onclick='goSignUp()'>Back to Sign up</button>";
+    form += "<button type='button' onclick='goSignUp()'>Sign up</button>";
     form += "</div>"; // Cierra el div del botón centrado
 
     form += "</div>"; // Cierra el div de formulario de inicio de sesión
@@ -52,4 +52,8 @@ async function loginUser() {
 // Función para ir a la página de registro de usuario (sing_up.html)
 function goSignUp() {
     window.location.href = 'sing_up.html';
+}
+
+function goAdmin(){
+    window.location.href = 'admin.html'
 }
