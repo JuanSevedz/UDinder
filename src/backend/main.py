@@ -30,7 +30,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import uvicorn
 from database import UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
 from fastapi.middleware.cors import CORSMiddleware
-from models import User, Profile, Match
+from models import User, Profile, Match, Message
 from routes_admin import router as admin_router
 from auth import * # pylint: disable=W0401
 
@@ -300,6 +300,73 @@ def delete_match(match_id: int, db: Session = Depends(get_db)): # type: ignore
     db.commit()
     return {"message": "Match deleted successfully"}
 
+# Functions to send and recive messages
+
+def create_message(db: Session, message: MessageCreate):
+    # Crea un nuevo mensaje en la base de datos
+    db_message = Message(**message.dict())
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+    return db_message
+
+def get_user_messages(db: Session, user_id: str):
+    # Obtiene los mensajes de un usuario de la base de datos
+    return db.query(Message).filter(Message.receiver_id == user_id).all()
+
+
+# Endpoint para enviar un mensaje
+# Endpoint para enviar un mensaje
+@app.post("/messages/", response_model=MessageResponse)
+def send_message(message: MessageCreate, db: Session = Depends(get_db)):
+    # Comprobar si el usuario receptor existe
+    receiver = db.query(User).filter(User.id == message.receiver_id).first()
+    if receiver is None:
+        raise HTTPException(status_code=404, detail="El usuario receptor no existe")
+
+    # Verificar si el remitente y el receptor son el mismo usuario
+    if message.sender_id == message.receiver_id:
+        raise HTTPException(status_code=400, detail="No puedes enviar un mensaje a ti mismo")
+
+    # Verificar si existe un match entre el remitente y el receptor
+    match = db.query(Match).filter(
+        ((Match.user_id == message.sender_id) & (Match.liked_user_id == message.receiver_id)) |
+        ((Match.user_id == message.receiver_id) & (Match.liked_user_id == message.sender_id))
+    ).first()
+    if not match:
+        raise HTTPException(status_code=400, detail="No hay match entre el remitente y el receptor")
+
+    # Si el usuario receptor existe y hay un match, crear el mensaje en la base de datos
+    return create_message(db=db, message=message)
+
+# Endpoint para obtener los mensajes de un usuario
+@app.get("/messages/{user_id}/", response_model=list[MessageResponse])
+def get_user_messages_endpoint(user_id: str, db: Session = Depends(get_db)):
+    # Comprobar si el usuario existe
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="El usuario no existe")
+
+    # Obtener los mensajes del usuario
+    messages = get_user_messages(db, user_id=user_id)
+    return messages
+
+
+# Endpoint para borrar un mensaje
+@app.delete("/messages/{message_id}/", response_model=None)
+def delete_message(message_id: int, db: Session = Depends(get_db)):
+    # Buscar el mensaje en la base de datos
+    message = db.query(Message).filter(Message.id == message_id).first()
+
+    # Si el mensaje no existe, levantar una excepción HTTP 404
+    if not message:
+        raise HTTPException(status_code=404, detail="El mensaje no fue encontrado")
+
+    # Borrar el mensaje de la base de datos
+    db.delete(message)
+    db.commit()
+    
+    return message
 
 
 

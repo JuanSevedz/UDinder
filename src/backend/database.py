@@ -1,26 +1,33 @@
 """
-Imports for setting up a FastAPI application with SQLAlchemy database integration.
+This module includes the necessary imports for working with datetime operations,
+OS operations, Pydantic models, SQLAlchemy ORM, and type hinting.
 
 Imports:
-    - os: Provides functions for interacting with the operating system.
-    - FastAPI: A modern, fast (high-performance) web framework for building APIs with Python.
-    - HTTPException: Exception to return as an HTTP response.
-    - Depends: A decorator for dependencies.
-    - BaseModel: Base class for creating Pydantic models.
-    - EmailStr: Email validation string type from Pydantic.
-    - create_engine: Function to create a SQLAlchemy engine.
-    - Column: Class to represent a column in a database table.
-    - Integer: Integer data type from SQLAlchemy.
-    - String: String data type from SQLAlchemy.
-    - TIMESTAMP: TIMESTAMP data type from SQLAlchemy.
-    - func: Module for SQL functions in SQLAlchemy.
-    - declarative_base: Function for creating a base class for declarative class definitions.
-    - sessionmaker: Function for creating a session factory in SQLAlchemy.
-    - Session: Represents a database session in SQLAlchemy.
-    - datetime: Module for manipulating dates and times.
-    - uvicorn: ASGI server implementation, used for running the FastAPI application.
-
-Note: Ensure you have the necessary packages installed to use these imports.
+    from datetime import datetime:
+        Provides classes for manipulating dates and times.
+        
+    import os:
+        Provides a portable way of using operating system dependent functionality like reading or writing to the file system.
+        
+    from pydantic import BaseModel, EmailStr:
+        BaseModel: The base class for creating Pydantic models, which offer data validation and parsing.
+        EmailStr: A custom type for email strings, ensuring valid email formats.
+        
+    from sqlalchemy import create_engine, Column, Integer, String, TIMESTAMP, func:
+        create_engine: A factory function for creating a new SQLAlchemy engine instance.
+        Column: A class for defining columns in SQLAlchemy models.
+        Integer: A class for defining integer columns in SQLAlchemy models.
+        String: A class for defining string columns in SQLAlchemy models.
+        TIMESTAMP: A class for defining timestamp columns in SQLAlchemy models.
+        func: A module that provides access to SQL functions like `now()`.
+        
+    from sqlalchemy.orm import declarative_base, sessionmaker, Session:
+        declarative_base: A factory function for creating a base class for declarative class definitions.
+        sessionmaker: A factory for creating new SQLAlchemy session objects.
+        Session: A class for creating SQLAlchemy session instances.
+        
+    from typing import Optional:
+        Optional: A utility for indicating that a variable can be of a specified type or None.
 """
 from datetime import datetime
 import os
@@ -59,8 +66,24 @@ class UserCreate(BaseModel):
     location: Optional[str]
     age: Optional[int]
 
-# Clase Pydantic para la respuesta de un usuario
+
 class UserResponse(BaseModel):
+    """
+    Represents the response structure for a user.
+
+    Attributes:
+        id (int): The unique ID of the user.
+        email (EmailStr): The email address of the user.
+        name (str): The name of the user.
+        gender (Optional[str]): The gender of the user. Optional.
+        birth_date (Optional[datetime]): The birth date of the user. Optional.
+        preferences (Optional[str]): The preferences of the user. Optional.
+        location (Optional[str]): The location of the user. Optional.
+        age (Optional[int]): The age of the user. Optional.
+        
+    Config:
+        from_attributes (bool): If True, populate model from attributes (default: False).
+    """
     id: int
     email: EmailStr
     name: str
@@ -71,21 +94,70 @@ class UserResponse(BaseModel):
     age: Optional[int]
     
     class Config:
-        """Only a validation class to the attributes
-        """
+        """Configuration for the validation of attributes."""
         from_attributes = True
 
 class UserUpdate(BaseModel):
-    """Pydantic model for updating an existing user"""
+    """
+    Represents a model for updating an existing user.
+
+    Attributes:
+        name (Optional[str]): The updated name of the user. Optional.
+        password (Optional[str]): The updated password of the user. Optional.
+        preferences (Optional[str]): The updated preferences of the user. Optional.
+        location (Optional[str]): The updated location of the user. Optional.
+    """
     name: Optional[str] = None
     password: Optional[str] = None
     preferences: Optional[str] = None
     location: Optional[str] = None
 
+class MessageCreate(BaseModel):
+    """
+    Represents the structure of a message to be created.
+    
+    Attributes:
+        sender_id (int): The ID of the sender of the message.
+        receiver_id (int): The ID of the receiver of the message.
+        message (str): The content of the message.
+    """
+    sender_id: int
+    receiver_id: int
+    message: str
+
+class MessageResponse(BaseModel):
+    """
+    Represents the structure of a message response.
+    
+    Attributes:
+        id (int): The unique ID of the message.
+        sender_id (int): The ID of the sender of the message.
+        receiver_id (int): The ID of the receiver of the message.
+        message (str): The content of the message.
+    
+    Config:
+        from_attributes (bool): If True, populate model from attributes (default: False).
+    """
+    id: int
+    sender_id: int
+    receiver_id: int
+    message: str
+
+    class Config:
+        from_attributes = True
+
 
 # Dependency to get the database session
 def get_db() -> Session: # type: ignore
-    """Dependency to get the database session"""
+    """
+    Dependency to get the database session.
+
+    Yields:
+        Session: A SQLAlchemy database session.
+    
+    This function is used to provide a database session for the duration of a request.
+    It ensures that the session is properly closed after the request is processed.
+    """
     db = SessionLocal()
     try:
         yield db
@@ -95,6 +167,17 @@ def get_db() -> Session: # type: ignore
 
 # Function to calculate age from birth date
 def calculate_age(birth_date: datetime) -> int:
-    """Calculate age from birth date"""
+    """
+    Calculate age from birth date.
+
+    Args:
+        birth_date (datetime): The birth date of the individual.
+
+    Returns:
+        int: The age of the individual based on the current date.
+    
+    This function calculates the age by comparing the birth date with the current date.
+    It takes into account whether the current date has already passed the birthday for the current year.
+    """
     today = datetime.now()
     return today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
