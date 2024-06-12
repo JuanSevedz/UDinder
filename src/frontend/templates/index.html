@@ -13,17 +13,42 @@
     <title>UDinder</title>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button class="login-btn">Login</button></li>
+                <li><button onclick="goAdmin()">Admin</button></li>
+            </ul>
+            <div class="container">
+                <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
+                <h1 class="udinder-title">Welcome to UDinder</h1>
+            </div>
+        </nav>
+    </header>
     <div class="background"></div>
-    <div class="container">
-        <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
-        <h1 class="udinder-title">Welcome to UDinder</h1>
-        <div class="buttons-container">
-            <button onclick="goUser()">User</button>
-            <button onclick="goAdmin()">Admin</button>
-            
-
-        </div>
-    </div>
+    
     <div id="result"></div>
+    <div id="features" class="section">
+        <h2>Features</h2>
+        <p>This section contains the features of the application.</p>
+        <!-- Agrega aquí más contenido sobre las características de tu aplicación -->
+    </div>
+    <div id="about" class="section">
+        <h2>About</h2>
+        <p>This section provides information about the application.</p>
+        <!-- Agrega aquí más contenido sobre la aplicación -->
+    </div>
+
+    <div id="contact" class="section">
+        <h2>Contact</h2>
+        <p>This section provides contact information for the application.</p>
+        <!-- Agrega aquí la información de contacto -->
+    </div>
+
+
+
 </body>
 </html>
