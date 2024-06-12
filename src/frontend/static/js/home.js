@@ -89,3 +89,27 @@ document.addEventListener("DOMContentLoaded", () => {
         initialX = null;
     });
 });
+
+
+
+function goProfilrDetail() {
+    window.location.href = 'profile_detail.html';
+}
+
+function goMatches(){
+
+window.location.href = 'matches.html';
+
+}
+function goUserProfile() {
+    window.location.href = 'user_profile.html';
+}
+
+function goSettings(){
+
+window.location.href = 'settings.html';
+
+}
+function goOut(){
+    window.close();
+}
