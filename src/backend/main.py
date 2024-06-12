@@ -27,7 +27,7 @@ import uvicorn
 from auth import *  # pylint: disable=wildcard-import, unused-wildcard-import
 from database import (MessageCreate, MessageResponse,  # pylint: disable=E0611
                       Session, SessionLocal, UserCreate, UserResponse,
-                      UserUpdate, calculate_age, get_db)
+                      UserUpdate, calculate_age, get_db, LoginData)
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
@@ -96,7 +96,15 @@ async def index():
         html_content = file.read()
     return HTMLResponse(content=html_content, status_code=200)
 
+@app.get("/api/endpoint")
+async def endpoint():
+    """
+    Endpoint for /api/endpoint.
 
+    Returns:
+        dict: A message indicating the response from /api/endpoint.
+    """
+    return {"message": "This is the response from /api/endpoint"}
 
 # For User
 @app.post("/users/add")
@@ -227,7 +235,8 @@ def delete_user(user_id: int, db: Session = Depends(get_db)): # type: ignore
 
 # For Authentication 
 @app.post("/login")
-def login_user(email: str, password: str, db: Session = Depends(get_db)): # type: ignore
+def login_user(login_data: LoginData, db: Session = Depends(get_db)): # type: ignore
+  
     """
     Log in a user.
 
@@ -240,7 +249,7 @@ def login_user(email: str, password: str, db: Session = Depends(get_db)): # type
         dict: A message indicating the result of the login attempt.
     """
     auth = Authentication(db) # pylint: disable=redefined-outer-name
-    user = auth.login(email, password)
+    user = auth.login(login_data.email, login_data.password)
     if user:
         return {"message": "User logged in successfully"}
     else:

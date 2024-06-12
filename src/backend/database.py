@@ -168,7 +168,9 @@ class MessageResponse(BaseModel):
     class Config:
         from_attributes = True
 
-
+class LoginData(BaseModel):
+    email: str
+    password: str
 
 def get_db() -> Session: # type: ignore
     """
