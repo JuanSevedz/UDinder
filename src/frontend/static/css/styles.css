@@ -108,7 +108,7 @@ table {
     width: 80%; /* Ajusta el ancho de la tabla */
     margin: 20px auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    box-shadow: 0 2px 3px rgba(255, 94, 0, 0); /* Añade una sombra sutil */
+    box-shadow: 0 2px 3px rgba(190, 98, 44, 0.842); /* Añade una sombra sutil */
 }
 
 /* Estilo para la tabla de registro de nuevo usuario */
