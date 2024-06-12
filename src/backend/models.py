@@ -139,6 +139,7 @@ class Profile(Base):
     photo = Column(LargeBinary, nullable=True)
     description = Column(Text, nullable=True)
     interests = Column(Text, nullable=True)
+    
 
     # Relationship with User class
     user = relationship("User", back_populates="profile")
@@ -167,9 +168,28 @@ class Admin(Base):
     user = relationship("User", back_populates="admin")
 
 
+
+class Like(Base):
+    """
+    Database model for representing likes.
+
+    This model defines the structure of the 'likes' table in the database.
+
+    Attributes:
+        id (int): The unique identifier for the like.
+        user_id (int): The foreign key referencing the user who made the like.
+        liked_user_id (int): The foreign key referencing the user who received the like.
+
+    """
+    __tablename__ = "likes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    liked_user_id = Column(Integer, ForeignKey("users.id"))
+
 class Match(Base):
     """
-    Database model for representing match history.
+    Database model for representing matches.
 
     This model defines the structure of the 'matches' table in the database.
 
@@ -182,7 +202,6 @@ class Match(Base):
         UniqueConstraint: Ensures that each match is unique between two users.
 
     """
-
     __tablename__ = "matches"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -192,6 +211,7 @@ class Match(Base):
     __table_args__ = (
         UniqueConstraint("user_id", "liked_user_id", name="unique_match"),
     )
+
 
 
 class Message(Base):

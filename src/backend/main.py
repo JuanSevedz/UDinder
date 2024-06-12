@@ -21,6 +21,8 @@ Imports:
 
 Note: Ensure you have the necessary packages installed to use these imports.
 """
+import io
+import random
 from typing import List
 
 import uvicorn
@@ -30,7 +32,7 @@ from database import (MessageCreate, MessageResponse,  # pylint: disable=E0611
                       UserUpdate, calculate_age, get_db, LoginData)
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from models import Match, Message, Profile, User
 from routes_admin import router as admin_router
@@ -326,7 +328,60 @@ def add_description(user_id: int, description: str = Form(...), db: Session = De
     db.refresh(profile)
     return {"message": "Description added successfully"}
 
-# Endpoint para colocar intereses
+
+@app.get("/profiles/show-photo/{user_id}")
+def show_photo(user_id: int, db: Session = Depends(get_db)): # type:ignore
+    """
+    Show the photo saved for a user's profile.
+
+    Args:
+        user_id (int): The ID of the user.
+        db (Session): The database session.
+
+    Returns:
+        bytes: The bytes of the photo.
+    """
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    if profile is None or profile.photo is None:
+        raise HTTPException(status_code=404, detail="Photo not found")
+
+    
+    return StreamingResponse(io.BytesIO(profile.photo), media_type="image/jpeg")
+
+
+
+@app.get("/profiles/others-photos/{user_id}")
+def get_other_users_photos(user_id: int, db: Session = Depends(get_db)):# type:ignore
+    """
+    Get photos of other users for the user with the specified ID.
+
+    Args:
+        user_id (int): The ID of the user.
+        db (Session): The database session.
+
+    Returns:
+        list: A list of photo URLs of other users.
+    """
+    # Get the profile of the current user
+    user_profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    if user_profile is None:
+        raise HTTPException(status_code=404, detail="User profile not found")
+
+    # Get profiles of other users
+    other_users_profiles = db.query(Profile).filter(Profile.user_id != user_id).all()
+
+    # Randomly shuffle other users profiles
+    random.shuffle(other_users_profiles)
+
+    # Get photo URLs of other users
+    other_users_photos = [profile.photo_url for profile in other_users_profiles]
+
+    return other_users_photos
+
 @app.put("/profiles/set-interests/")
 def set_interests(user_id: int, interests: str = Form(...), db: Session = Depends(get_db)): # type: ignore
     """

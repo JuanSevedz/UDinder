@@ -25,10 +25,4 @@ window.location.href = 'user.html';
 
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const loginBtn = document.querySelector(".login-btn");
 
-    loginBtn.addEventListener("click", () => {
-        window.location.href = "http://127.0.0.1:5500/src/frontend/templates/login.html";
-    });
-});

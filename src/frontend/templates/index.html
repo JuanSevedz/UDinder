@@ -15,12 +15,14 @@
 <body>
     <header>
         <nav>
-            <ul>
+            <ul class="horizontal-menu">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><button onclick="goIser()">User</button></li>
-                <li><button onclick="goAdmin()">Admin</button></li>
+                <div class="right-buttons">
+                    <li><button onclick="goUser()">User</button></li>
+                    <li><button onclick="goAdmin()">Admin</button></li>
+                </div>
             </ul>
             <div class="container">
                 <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
@@ -32,20 +34,43 @@
     
     <div id="result"></div>
     <div id="features" class="section">
-        <h2>Features</h2>
-        <p>This section contains the features of the application.</p>
-        <!-- Agrega aquí más contenido sobre las características de tu aplicación -->
+        <h1>Features</h1>
+        <p>Our application offers a wide range of features including:</p>
+        <ul>
+            <li>User Registration and Profile Management</li>
+            <li>Authentication and Authorization</li>
+            <li>Photo Uploads and Profile Descriptions</li>
+            <li>Interest Settings and User Matching</li>
+            <li>Messaging System for Matched Users</li>
+            <li>Administrative Tools for User and Match Management</li>
+        </ul>
+
     </div>
     <div id="about" class="section">
         <h2>About</h2>
-        <p>This section provides information about the application.</p>
-        <!-- Agrega aquí más contenido sobre la aplicación -->
+        <h2>Our Mission</h2>
+        <p>Welcome to our modern and vibrant dating platform, where connections are made meaningful, and love blossoms effortlessly. At our core, we are more than just a dating app; we are your ultimate wingman in the journey of finding genuine connections and lasting relationships.</p>
+
+        <h2>Embracing Modern Dating</h2>
+        <p>Similar to renowned platforms like Tinder, our application offers a seamless and intuitive interface designed to ignite sparks and foster meaningful connections. Swipe through profiles, discover mutual interests, and embark on exciting conversations with potential matches—all within a few taps.</p>
+
+        <h2>A Date Program Like No Other</h2>
+        <p>Our innovative date program sets us apart from the rest. We believe in the power of compatibility and chemistry, which is why our algorithm intelligently pairs users based on their preferences, interests, and personality traits. Say goodbye to endless scrolling and hello to curated matches tailored to your unique preferences.</p>
+
+        <h2>Safety First</h2>
+        <p>Your safety and privacy are our utmost priorities. We employ advanced security measures and robust verification processes to ensure a secure and authentic dating experience for all users. Rest assured, your journey with us is safeguarded every step of the way.</p>
+        <h2>Get Started Today</h2>
+        <p>Ready to embark on your journey to love and companionship? Join our growing community of singles, explorers, and dreamers today. Whether you're seeking a soulmate, a companion for adventures, or simply a meaningful connection, our platform is your gateway to new beginnings.</p>
+        <h2>Spread the Love</h2>
+        <p>Help us spread the love! Share your success stories, experiences, and memorable moments with us and the community. Together, let's celebrate love in all its forms and inspire others to find their happily ever after.</p>
+
+        <p>Join us today and let's rewrite the rules of modern dating together.</p>
     </div>
 
     <div id="contact" class="section">
-        <h2>Contact</h2>
-        <p>This section provides contact information for the application.</p>
-        <!-- Agrega aquí la información de contacto -->
+        <h2>Contact Us</h2>
+        <p>If you have any questions, feedback, or need assistance, feel free to reach out to us. We're here to help and ensure you have the best experience possible.</p>
+
     </div>
 
 

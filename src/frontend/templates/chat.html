@@ -18,17 +18,16 @@
         <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
         <h1 class="udinder-title">Chat</h1>
         <div class="buttons-container">
+            <input type="text" id="senderId" placeholder="Sender ID">
+            <input type="text" id="receiverId" placeholder="Receiver ID">
+            <textarea id="messageContent" placeholder="Type your message"></textarea>
             <button onclick="sendMessage()">Send Message</button>
-            <button onclick="seeMessages()">See Messages</button>
-            <button onclick="deletedMessage()">Delete Message</button>
-            
-            
-
         </div>
+        <div id="result"></div>
         <div class="buttons-container">
-            <button onclick="backToMatchProfile()">Back</button>
+            <button onclick="backHome()">Back</button>
         </div>
+
     </div>
-    <div id="result"></div>
 </body>
 </html>

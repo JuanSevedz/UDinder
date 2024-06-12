@@ -4,43 +4,45 @@
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
     <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
     <script src="../static/js/home.js"></script>
-    <style>
-          
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UDinder</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <!-- Aquí puedes incluir el encabezado de tu aplicación -->
-    </header>
-
+    <header><img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo"></header>
+    <div class="background"></div>
+    <div class="container">
     <main>
         <div id="profile-container">
-            <!-- Aquí se cargarán dinámicamente los perfiles de los usuarios -->
-            <div class="profile-card" id="profile-card">
-                <img src="images/user1.jpg" alt="User 1">
-                <div class="profile-info">
-                    <h2>Nombre del Usuario</h2>
-                    <p>Edad</p>
-                </div>
+            <!-- User profiles will be dynamically loaded here -->
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId">
+            <button onclick="showUserPhoto()">Show Photo</button>
+            
+            <div id="photoContainer">
+                <!-- The user's photo will be shown here -->
+                <img id="userPhoto" src="" alt="User Photo">
             </div>
         </div>
-        <button onclick="logoutUser()">Logout</button>
-        <button onclick="goIser()">User</button>
-        <button onclick="goAdmin()">Admin</button>
-        <button onclick="goIser()">User</button>
-        <button onclick="goAdmin()">Admin</button>
-        <button onclick="goOut()">Exit</button>
         
-
+        
+        <button onclick="goMatches()">Matches</button>
+        <button onclick="goprofilesetup()">Profile Set up</button>
+        <button onclick="closeWindow()">Exit</button>
+        <button onclick="goSettings()">Settings</button>
 
     </main>
+    </div>
+    <div id="result"></div>
 </body>
 </html>
 
-        
+
+    </main>
+    </div>
+    <div id="result"></div>
+</body>
+</html>
+
         
     

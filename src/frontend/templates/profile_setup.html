@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
+    <script src="../static/js/profile_setup.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDinder</title>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <img src="../public/logo.png" alt="Logo de la aplicación" class="udinder-logo">
+        <h1 class="udinder-title">Profile setup</h1>
+        <div class="buttons-container">
+            <button onclick="showForm('upload-form')">Upload photo</button>
+            <button onclick="showForm('description-form')">Add description</button>
+            <button onclick="showForm('interests-form')">Set interests</button>
+        </div>
+        <div class="buttons-container">
+            <button onclick="goHome()">Go Home</button>
+        </div>
+        <div class="buttons-container">
+            <button onclick="logOut()">Log out</button>
+        </div>
+
+        <form id="upload-form" style="display:none;" method="POST" enctype="multipart/form-data">
+            <label for="userId">User ID:</label><br>
+            <input type="number" id="upload-user-id" name="userId" required><br><br>
+            <label for="photo">Select photo:</label><br>
+            <input type="file" id="photo" name="photo" accept="image/*" required><br><br>
+            <button type="button" onclick="uploadPhoto()">Update</button>
+        </form>
+
+        <div id="response"></div>
+        
+        <form id="description-form" style="display:none;" method="PUT" enctype="multipart/form-data">
+            <label for="userId">User ID:</label><br>
+            <input type="number" id="description-user-id" name="userId" required><br><br>
+            <textarea id="description" name="description" placeholder="Enter your description"></textarea>
+            <button type="button" onclick="addDescription()">Submit</button>
+        </form>
+
+        <form id="interests-form" style="display:none;" method="PUT" enctype="multipart/form-data">
+            <label for="userId">User ID:</label><br>
+            <input type="number" id="interests-user-id" name="userId" required><br><br>
+            <label for="interests">Interests:</label>
+            <select id="interests" name="interests">
+            <option value="Mujeres">Mujeres</option>
+            <option value="Hombres">Hombres</option>
+            <option value="De todo">De todo</option>
+            </select><br><br>
+            <button type="button" onclick="setInterests()">Submit</button>
+        </form>
+    </div>
+    <div id="result"></div>
+</body>
+</html>

@@ -7,23 +7,23 @@ fetch(`${URL_BASE}/api/endpoint`)
 
 
     async function addUser() {
-        let form = "<div class='new-user-form'>"; // Envuelve la tabla en un contenedor div
+        let form = "<div class='new-user-form'>"; // Wrap the table in a div container
         form += "<table class='new-user-table'>";
         
     
-        form += "<tr><td>ID:</td><td><input type='number' id='txtId'></td></tr>"; // Campo para el ID
-        form += "<tr><td>Email:</td><td><input type='email' id='txtEmail' required></td></tr>"; // Campo para el email
-        form += "<tr><td>Name:</td><td><input type='text' id='txtName' required></td></tr>"; // Campo para el nombre
-        form += "<tr><td>Password:</td><td><input type='text' id='txtPassword' required></td></tr>"; // Campo para la contraseña
+        form += "<tr><td>ID:</td><td><input type='number' id='txtId'></td></tr>"; // ID field
+        form += "<tr><td>Email:</td><td><input type='email' id='txtEmail' required></td></tr>"; // Email field
+        form += "<tr><td>Name:</td><td><input type='text' id='txtName' required></td></tr>"; // Name field
+        form += "<tr><td>Password:</td><td><input type='text' id='txtPassword' required></td></tr>"; // Password field
         form += "<tr><td>Gender:</td><td><input type='text' id='txtGender' required></td></tr>"; // Campo para el género
-        form += "<tr><td>Birth Date:</td><td><input type='date' id='txtBirthDate' required></td></tr>"; // Campo para la fecha de nacimiento
-        form += "<tr><td>Preferences:</td><td><textarea id='txtPreferences' rows='3' required></textarea></td></tr>"; // Campo para las preferencias
-        form += "<tr><td>Location:</td><td><input type='text' id='txtLocation' required></td></tr>"; // Campo para la ubicación
+        form += "<tr><td>Birth Date:</td><td><input type='date' id='txtBirthDate' required></td></tr>"; // Date of birth field
+        form += "<tr><td>Preferences:</td><td><textarea id='txtPreferences' rows='3' required></textarea></td></tr>"; // Field for preferences
+        form += "<tr><td>Location:</td><td><input type='text' id='txtLocation' required></td></tr>"; // field for ubication
         form += "<tr><td>age:</td><td><input type='number' id='txtAge' required></td></tr>";
         form += "</table>";
-        form += "<div class='center-button'><button type='button' onclick='createUser()'>Send to DB</button></div>"; // Botón para enviar los datos
+        form += "<div class='center-button'><button type='button' onclick='createUser()'>Send to DB</button></div>"; // Button to send the data
     
-        form += "</div>"; // Cierra el contenedor div
+        form += "</div>"; //close the div
     
         document.getElementById('result').innerHTML = form;
     }

@@ -1,6 +1,35 @@
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+.horizontal-menu {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    margin: 0;
+    padding: 10px; /* Añade un poco de espacio interno */
+    display: flex; /* Usa flexbox para organizar horizontalmente */
+    background-color: #f0f0f0; /* Color de fondo */
+    border: 1px solid #ccc; /* Opcional: añade un borde alrededor */
+    border-radius: 5px; /* Opcional: añade bordes redondeados */
+    align-items: center; /* Centra los elementos verticalmente */
+}
+
+.horizontal-menu li {
+    margin-right: 20px; /* Espacio entre los elementos de la lista */
+}
+
+.right-buttons {
+    display: flex;
+    margin-left: auto; /* Empuja los botones hacia la derecha */
+}
+
+.horizontal-menu a, .horizontal-menu button {
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    color: black; /* Color del texto */
+    border: none; /* Quita los bordes de los botones */
+    
+    cursor: pointer; /* Cambia el cursor al pasar sobre los botones */
+    font-size: 16px; /* Tamaño de la fuente */
+}
+
 
 .section {
     padding: 50px;
