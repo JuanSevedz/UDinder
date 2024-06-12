@@ -22,17 +22,20 @@ Imports:
 Note: Ensure you have the necessary packages installed to use these imports.
 """
 from typing import List
-from fastapi import FastAPI, HTTPException, Depends,File, UploadFile, Form
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from sqlalchemy.orm.exc import NoResultFound 
+
 import uvicorn
-from database import MessageCreate, MessageResponse, UserCreate, Session,SessionLocal, get_db, calculate_age, UserResponse, UserUpdate # pylint: disable=E0611
+from auth import *  # pylint: disable=wildcard-import, unused-wildcard-import
+from database import (MessageCreate, MessageResponse,  # pylint: disable=E0611
+                      Session, SessionLocal, UserCreate, UserResponse,
+                      UserUpdate, calculate_age, get_db)
+from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from models import User, Profile, Match, Message
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from models import Match, Message, Profile, User
 from routes_admin import router as admin_router
-from auth import * # pylint: disable=wildcard-import, unused-wildcard-import
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.orm.exc import NoResultFound
 
 # Import the necessary classes and functions
 
